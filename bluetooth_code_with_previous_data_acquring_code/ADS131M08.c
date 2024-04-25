@@ -97,7 +97,7 @@
 
 
 #define ADS131_CS_PIN 15		
-#define ADS131_DRDY_PIN 18	
+#define ADS131_DRDY_PIN 16	
 #define ADS131_RESET_PIN 3
 
 #define MIC_DATA_BUFFER_LEN 3000		//500 samples per second x 6 seconds

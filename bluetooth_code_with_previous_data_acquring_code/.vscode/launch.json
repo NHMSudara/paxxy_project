@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/exceltech/Paxxy main code/stable_ble_sim_edited",
-      "program": "d:/exceltech/Paxxy main code/stable_ble_sim_edited/build/Debug/outDebug",
+      "cwd": "d:/exceltech/paxxy_github/paxxy_project/bluetooth_code_with_previous_data_acquring_code",
+      "program": "d:/exceltech/paxxy_github/paxxy_project/bluetooth_code_with_previous_data_acquring_code/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
