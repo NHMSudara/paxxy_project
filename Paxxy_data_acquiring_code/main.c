@@ -137,8 +137,8 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 								//sensor4->euler_buffer[sensor4->euler_ri].roll)
 #endif
 #ifdef BHI_SENSOR5
-			fprintf(data_file,"%d,%d,%d", sensor5->euler_buffer[sensor5->euler_ri].heading, sensor5->euler_buffer[sensor5->euler_ri].pitch,
-								sensor5->euler_buffer[sensor5->euler_ri].roll);
+			fprintf(data_file,"%d,%d,%d,", sensor5->vector_buffer[sensor5->vector_ri].x, sensor5->vector_buffer[sensor5->vector_ri].y,
+								sensor5->vector_buffer[sensor5->vector_ri].z);
 #endif
 			fprintf(data_file,"\n");
 			fflush(data_file);
@@ -168,7 +168,7 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 				sensor4->euler_count = 0;
 #endif
 #ifdef BHI_SENSOR5
-				printf("Sensor 5 ORI %d, ", sensor5->euler_count);
+				printf("Sensor 5 LACC %d, ", sensor5->vector_count);
 				sensor5->vector_count = 0;
 				sensor5->euler_count = 0;
 #endif
@@ -381,7 +381,7 @@ int main(int argc, char **argv)
 		//BHI260AP_init_sensor(&bhi_sensor4, ENABLE_LACC_VS | ENABLE_ORI_VS);
 #endif
 #ifdef BHI_SENSOR5
-		BHI260AP_init_sensor(&bhi_sensor5, ENABLE_ORI_VS);
+		BHI260AP_init_sensor(&bhi_sensor5, ENABLE_LACC_VS);
 
 #endif
 

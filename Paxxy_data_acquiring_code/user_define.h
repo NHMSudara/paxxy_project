@@ -24,7 +24,7 @@
 #define BHI_SENSOR2
 #define BHI_SENSOR3
 #define BHI_SENSOR4
-//#define BHI_SENSOR5
+#define BHI_SENSOR5
 
 
 #define SW_PIN 28
