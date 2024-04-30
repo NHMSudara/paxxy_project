@@ -515,7 +515,7 @@ int main(int argc, char **argv)
 					}
 
 					ads1298.adc_count = 0;
-					ads131.adc_count = 0;
+					//ads131.adc_count = 0;
 					data_log_started = YES;
 					mraa_gpio_write(led, 1);
 					printf("ADS Logging started\n");
