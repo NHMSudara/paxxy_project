@@ -16,10 +16,4 @@
 
 	extern int ADS131_get_and_process_data(struct ADS_sensor *sensor);
 
-//	extern void ADS131_set_data_log_started(unsigned char state);
-//
-//	extern unsigned char *ADS131_read_data(void);
-//	extern int ADS131_stop_spi(void);
-//
-//	extern int ADS131_data_read_task(void);
 #endif

@@ -3,7 +3,7 @@
 
 #define DEBUG_EN
 
-#define ADS131
+//#define ADS131
 #define ADS1298
 #define BHI260AP
 
@@ -72,9 +72,9 @@
 
 /* ADS131M08 GPIO */
 
-#define ADS131_CS_PIN 15
-#define ADS131_DRDY_PIN 16
-#define ADS131_RESET_PIN 3
+// #define ADS131_CS_PIN 15
+// #define ADS131_DRDY_PIN 16
+// #define ADS131_RESET_PIN 3
 
 /* ADS1298 register configurations */
 

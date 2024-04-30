@@ -1,5 +1,6 @@
-#ifndef server_H
-    #define server_H
+#ifndef SERVER_H
+
+    #define SERVER_H
 
     extern void *read_main_tcp(void);
     extern void *listen_tcp(void *para);

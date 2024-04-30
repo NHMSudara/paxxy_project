@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/exceltech/Paxxy main code/Paxxy_ADS2_BHI4_8_3_24",
-      "program": "d:/exceltech/Paxxy main code/Paxxy_ADS2_BHI4_8_3_24/build/Debug/outDebug",
+      "cwd": "d:/exceltech/paxxy_github/paxxy_project/Paxxy_data_acquiring_code",
+      "program": "d:/exceltech/paxxy_github/paxxy_project/Paxxy_data_acquiring_code/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
