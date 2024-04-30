@@ -16,7 +16,7 @@ import subprocess
 from ble_stuff import boink
 
 HOST = '127.0.0.1'
-PORT = 12345
+PORT = 6789
 
 subprocess.Popen(["./main"])
 
