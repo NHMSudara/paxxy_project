@@ -5,7 +5,7 @@
 
 //#define ADS131
 #define ADS1298
-#define BHI260AP
+//#define BHI260AP
 
 //#define ENABLE_ADS1298_TEST_SIGNAL
 //#define ENABLE_ADS131_TEST_SIGNAL
@@ -72,9 +72,9 @@
 
 /* ADS131M08 GPIO */
 
-// #define ADS131_CS_PIN 15
-// #define ADS131_DRDY_PIN 16
-// #define ADS131_RESET_PIN 3
+#define ADS131_CS_PIN 15
+#define ADS131_DRDY_PIN 16
+#define ADS131_RESET_PIN 3
 
 /* ADS1298 register configurations */
 

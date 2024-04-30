@@ -64,6 +64,11 @@ typedef struct data
     int ll;
     int la;
     int v1;
+	int mc1;
+	int mc2;
+	int mc3;
+	int mc4;
+
 }DataObject;
 
 
@@ -192,18 +197,20 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 }
 #endif
 
-#if defined(ADS1298)   //|| defined(ADS131)
-void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298) //, struct ADS_sensor *ads131
+#if defined(ADS1298) || defined(ADS131)
+void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor *ads131) 
 {
 	if(YES==data_log_started)
 	{
 		if(YES==timer_ticked_ads)
 		{
-			fprintf(data_file,"%d,%d,%d,%d\n", ads1298->adc_buffer[ads1298->adc_ri].channel[3], ads1298->adc_buffer[ads1298->adc_ri].channel[4],
-					ads1298->adc_buffer[ads1298->adc_ri].channel[5], ads1298->adc_buffer[ads1298->adc_ri].channel[7]);
-			//ads131->adc_buffer[ads131->adc_ri].channel[0], ads131->adc_buffer[ads131->adc_ri].channel[1], ads131->adc_buffer[ads131->adc_ri].channel[2],
-			//ads131->adc_buffer[ads131->adc_ri].channel[3]
+			fprintf(data_file,"%d,%d,%d,%d,%d,%d,%d,%d\n", ads1298->adc_buffer[ads1298->adc_ri].channel[3], ads1298->adc_buffer[ads1298->adc_ri].channel[4],
+					ads1298->adc_buffer[ads1298->adc_ri].channel[5], ads1298->adc_buffer[ads1298->adc_ri].channel[7],
+			ads131->adc_buffer[ads131->adc_ri].channel[0], ads131->adc_buffer[ads131->adc_ri].channel[1], ads131->adc_buffer[ads131->adc_ri].channel[2],
+			ads131->adc_buffer[ads131->adc_ri].channel[3]);
+
 			fflush(data_file);
+
 			log_i ++;
 			DataObject data;
 			data.id = log_i;
@@ -211,18 +218,23 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298) //, struct ADS_se
 			data.ll = ads1298->adc_buffer[ads1298->adc_ri].channel[4];
 			data.la = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
 			data.v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
+			data.mc1 = ads131->adc_buffer[ads131->adc_ri].channel[0];
+			data.mc2 = ads131->adc_buffer[ads131->adc_ri].channel[1];
+			data.mc3 = ads131->adc_buffer[ads131->adc_ri].channel[2];
+			data.mc4 = ads131->adc_buffer[ads131->adc_ri].channel[3];
+			
 
 			send_data_object(&data);
 
 			if(ads_tick_count>=500)
 			{
 				ads_tick_count = 0;
-				//printf("ADS1298 %d - %d, ADS131 %d - %d\n", ads1298->int_count, ads1298->adc_count, ads131->int_count, ads131->adc_count);
-				printf("ADS1298 %d - %d\n", ads1298->int_count, ads1298->adc_count);
+				printf("ADS1298 %d - %d, ADS131 %d - %d\n", ads1298->int_count, ads1298->adc_count, ads131->int_count, ads131->adc_count);
+				//printf("ADS1298 %d - %d\n", ads1298->int_count, ads1298->adc_count);
 				ads1298->adc_count = 0;
-				//ads131->adc_count = 0;
+				ads131->adc_count = 0;
 				ads1298->int_count = 0;
-				//ads131->int_count = 0;
+				ads131->int_count = 0;
 			}
 			timer_ticked_ads = NO;
 		}
@@ -248,8 +260,8 @@ int main(int argc, char **argv)
 //	int count=0, count2=0;
 
 //	int8_t rslt=BHY2_OK;
-#if defined(ADS1298) //|| defined(ADS131)
-	//struct ADS_sensor ads131;						//Since both ICs connected to same bus, need to initialize both GPIO if both sensors are connected but we enable on one in the software
+#if defined(ADS1298) || defined(ADS131)
+	struct ADS_sensor ads131;						//Since both ICs connected to same bus, need to initialize both GPIO if both sensors are connected but we enable on one in the software
 	struct ADS_sensor ads1298;
 #endif
 
@@ -324,13 +336,13 @@ int main(int argc, char **argv)
 
 
 
-#if defined(ADS1298) //|| defined(ADS131)	
+#if defined(ADS1298) || defined(ADS131)	
 	if(SUCCEEDED==ads_spi_init())
 	{
 		printf("OK initialization of ADS SPI\n"); 
 	}
 
-	//ADS131_init_gpio(&ads131, 2);
+	ADS131_init_gpio(&ads131, 2);
 	ADS1298_init_gpio(&ads1298, 1);			//Since both ICs connected to same bus, need to initialize both GPIO if both sensors are connected but we enable on one in the software
 
 #endif
@@ -416,18 +428,18 @@ int main(int argc, char **argv)
 	}
 #endif
 
-// #ifdef ADS131
+#ifdef ADS131
 
-// 	if(SUCCEEDED == ADS131_init_device(&ads131))
-// 	{	
-// 		printf("OK initialization of ADS131\n"); 
-// 	}
-// 	else
-// 	{
-// 		printf("FAILED initialization of ADS131\n");
-// 		exit(FAILED);
-// 	}
-// #endif
+	if(SUCCEEDED == ADS131_init_device(&ads131))
+	{	
+		printf("OK initialization of ADS131\n"); 
+	}
+	else
+	{
+		printf("FAILED initialization of ADS131\n");
+		exit(FAILED);
+	}
+#endif
 
 	for(int i=0; i<=2; i++){
 		mraa_gpio_write(led, 1);
@@ -446,17 +458,17 @@ int main(int argc, char **argv)
 			ads1298.data_ready = NO;
 			ADS1298_get_and_process_data(&ads1298);
 		}
-		log_ads_data(ADS_data_file, &ads1298); //, &ads131
+		log_ads_data(ADS_data_file, &ads1298, &ads131); 
 #endif
 
-// #ifdef ADS131
-// 		if(YES == ads131.data_ready)
-// 		{
-// 			ads131.data_ready = NO;
-// 			ADS131_get_and_process_data(&ads131);
-// 		}
-// 		log_ads_data(ADS_data_file, &ads1298, &ads131);
-// #endif
+#ifdef ADS131
+		if(YES == ads131.data_ready)
+		{
+			ads131.data_ready = NO;
+			ADS131_get_and_process_data(&ads131);
+		}
+		log_ads_data(ADS_data_file, &ads1298, &ads131);
+#endif
 
 #ifdef BHI260AP
 #ifdef BHI_SENSOR1
@@ -496,7 +508,7 @@ int main(int argc, char **argv)
 #endif
 		log_bhi_data(BHI_data_file, &bhi_sensor1, &bhi_sensor2, &bhi_sensor3, &bhi_sensor4, &bhi_sensor5);
 #if defined(ADS1298) || defined(ADS131)
-		log_ads_data(ADS_data_file, &ads1298); //, &ads131
+		log_ads_data(ADS_data_file, &ads1298, &ads131); 
 #endif
 #endif
 
@@ -517,7 +529,7 @@ int main(int argc, char **argv)
 					file_i++;
 					fclose(fi_file);
 				}
-#if defined(ADS1298) //|| defined(ADS131)
+#if defined(ADS1298) || defined(ADS131)
 				snprintf(file_name, FILE_NAME_LENGTH, "ADS_Data_%d.csv", file_i);
 				ADS_data_file = fopen(file_name,"w");
 
@@ -535,7 +547,7 @@ int main(int argc, char **argv)
 					}
 
 					ads1298.adc_count = 0;
-					//ads131.adc_count = 0;
+					ads131.adc_count = 0;
 					data_log_started = YES;
 					mraa_gpio_write(led, 1);
 					printf("ADS Logging started\n");
@@ -624,7 +636,7 @@ int main(int argc, char **argv)
 		
 	}
 
-#if defined(ADS1298) //|| defined(ADS131)	
+#if defined(ADS1298) || defined(ADS131)	
 	if(NULL!=ADS_data_file)
 		fclose(ADS_data_file);
 #endif
