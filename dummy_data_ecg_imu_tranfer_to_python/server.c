@@ -181,7 +181,7 @@ void *listen_tcp(void *para)
 			pthread_attr_init(&attr);
 			pthread_attr_setdetachstate(&attr,PTHREAD_CREATE_DETACHED);
 
-			pthread_create(read_thread,&attr,read_main_tcp,NULL);
+			pthread_create(&read_thread,&attr,read_main_tcp,NULL);
 			pthread_attr_destroy(&attr);
 
         }
