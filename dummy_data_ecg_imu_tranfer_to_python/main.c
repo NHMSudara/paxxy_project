@@ -80,6 +80,22 @@ void wake(void)
 	pthread_mutex_unlock(&mp);
 }
 
+void send_data_object(DataObject *data) {
+    unsigned char serialized_data[sizeof(DataObject)]; // Allocate buffer for serialized data
+
+    // Serialize the data object into a byte array
+    memcpy(serialized_data, data, sizeof(DataObject));
+
+    // Calculate the size of the serialized data
+    size_t data_size = sizeof(serialized_data);
+
+    // Send the serialized data over TCP
+    if (write_tcp_thread_safe(serialized_data, data_size) == FAILED) {
+        printf("Failed to send data object\n");
+    } else {
+        printf("Data object sent successfully\n");
+    }
+}
 
 void switch_int_handler(void* args)
 {
@@ -194,6 +210,8 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298) //, struct ADS_se
 			data.ll = ads1298->adc_buffer[ads1298->adc_ri].channel[4];
 			data.la = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
 			data.v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
+
+			send_data_object(&data);
 
 			if(ads_tick_count>=500)
 			{
