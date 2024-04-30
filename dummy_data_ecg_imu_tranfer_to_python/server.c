@@ -42,6 +42,19 @@ static int tcp_socket;             /* TCP socket identifier */
 static pthread_t read_thread;
 static pthread_mutex_t data_write;        /*Exclusive TCP data write access control mutex variable */
 
+void log_error_thread_safe(const char *format, ...) {
+    // Lock the mutex to ensure thread safety
+    pthread_mutex_lock(&error_mutex);
+
+    // Print the error message using variadic arguments
+    va_list args;
+    va_start(args, format);
+    vfprintf(stderr, format, args);
+    va_end(args);
+
+    // Unlock the mutex after printing the message
+    pthread_mutex_unlock(&error_mutex);
+}
 
 void *read_main_tcp (void *arg)
 {
