@@ -426,7 +426,7 @@ int main(int argc, char **argv)
 			ads1298.data_ready = NO;
 			ADS1298_get_and_process_data(&ads1298);
 		}
-		log_ads_data(ADS_data_file, &ads1298, &ads131);
+		log_ads_data(ADS_data_file, &ads1298); //, &ads131
 #endif
 
 // #ifdef ADS131
