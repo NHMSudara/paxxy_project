@@ -22,25 +22,21 @@ subprocess.Popen(["./main"])
 
 # Define the DataObject structure in Python
 class DataObject:
-    def __init__(self, id, ra, ll, la, v1, as1, as2, as3, as4):
+    def __init__(self, id, ra, ll, la, v1):
         self.id = id
         self.ra = ra
         self.ll= ll
         self.la = la
         self.v1 = v1
-        self.as1 = as1
-        self.as2 = as2
-        self.as3 = as3
-        self.as4 = as4
 
 def receive_data(socket):
     # Receive binary data from the socket
-    data = socket.recv(struct.calcsize("Iffffiiii"))
+    data = socket.recv(struct.calcsize("Iiiii"))
 
     # Unpack binary data into DataObject
-    id, ra, ll, la, v1, as1, as2, as3, as4 = struct.unpack("Iffffiiii", data)
+    id, ra, ll, la, v1 = struct.unpack("Iiiii", data)
 
-    return DataObject(id, ra, ll, la, v1, as1, as2, as3, as4)
+    return DataObject(id, ra, ll, la, v1)
 
 STATUS = 2
 
