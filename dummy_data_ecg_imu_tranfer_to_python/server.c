@@ -41,6 +41,7 @@ static int tcp_socket;             /* TCP socket identifier */
 
 static pthread_t read_thread;
 static pthread_mutex_t data_write;        /*Exclusive TCP data write access control mutex variable */
+static pthread_mutex_t error_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void log_error_thread_safe(const char *format, ...) {
     // Lock the mutex to ensure thread safety
