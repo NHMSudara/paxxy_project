@@ -206,7 +206,7 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 			data.ra = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
 			data.v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
 
-			send(client_socket, &data, sizeof(DataObject), 0);
+			//send(client_socket, &data, sizeof(DataObject), 0);
 
 			if(ads_tick_count>=500)
 			{
@@ -229,37 +229,37 @@ int main(int argc, char **argv)
 {
 	signal(SIGINT, handle_termination);
 
-	// Create socket
-    int server_socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (server_socket == -1) {
-        perror("Socket creation failed");
-        exit(EXIT_FAILURE);
-    }
+	// // Create socket
+    // int server_socket = socket(AF_INET, SOCK_STREAM, 0);
+    // if (server_socket == -1) {
+    //     perror("Socket creation failed");
+    //     exit(EXIT_FAILURE);
+    // }
 
-	// Set up server address structure
-    struct sockaddr_in server_address;
-    server_address.sin_family = AF_INET;
-    server_address.sin_addr.s_addr = INADDR_ANY;
-    server_address.sin_port = htons(PORT);
+	// // Set up server address structure
+    // struct sockaddr_in server_address;
+    // server_address.sin_family = AF_INET;
+    // server_address.sin_addr.s_addr = INADDR_ANY;
+    // server_address.sin_port = htons(PORT);
 
-	// Bind the socket to the specified port
-    if (bind(server_socket, (struct sockaddr*)&server_address, sizeof(server_address)) == -1) {
-        perror("Bind failed");
-        exit(EXIT_FAILURE);
-    }
+	// // Bind the socket to the specified port
+    // if (bind(server_socket, (struct sockaddr*)&server_address, sizeof(server_address)) == -1) {
+    //     perror("Bind failed");
+    //     exit(EXIT_FAILURE);
+    // }
 
-	// Listen for incoming connections
-    if (listen(server_socket, 5) == -1) {
-        perror("Listen failed");
-        exit(EXIT_FAILURE);
-    }
+	// // Listen for incoming connections
+    // if (listen(server_socket, 5) == -1) {
+    //     perror("Listen failed");
+    //     exit(EXIT_FAILURE);
+    // }
 
-	// Accept a connection
-    int client_socket = accept(server_socket, NULL, NULL);
-    if (client_socket == -1) {
-        perror("Accept failed");
-        exit(EXIT_FAILURE);
-    }
+	// // Accept a connection
+    // int client_socket = accept(server_socket, NULL, NULL);
+    // if (client_socket == -1) {
+    //     perror("Accept failed");
+    //     exit(EXIT_FAILURE);
+    // }
 
 	unsigned char file_name[FILE_NAME_LENGTH] = {0};
 	int file_i = 0;
