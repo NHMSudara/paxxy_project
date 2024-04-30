@@ -2,7 +2,7 @@
 
     #define SERVER_H
 
-    extern void *read_main_tcp(void);
+    extern void *read_main_tcp(void *arg);
     extern void *listen_tcp(void *para);
     extern void open_server_sockets(void);
     extern void close_server_sockets(void);

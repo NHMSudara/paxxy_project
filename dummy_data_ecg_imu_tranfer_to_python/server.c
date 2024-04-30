@@ -43,8 +43,9 @@ static pthread_t read_thread;
 static pthread_mutex_t data_write;        /*Exclusive TCP data write access control mutex variable */
 
 
-void *read_main_tcp (void)
+void *read_main_tcp (void *arg)
 {
+	(void)arg;
     /* read_tcp thread function - frontend TCP data receiving thread
      * thread receive frontend TCP commands and execute necessary functions to implement command
      * parameters - new_conn - pointer to TCP connection details structure
