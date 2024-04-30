@@ -86,8 +86,6 @@ void *listen_tcp(void *para)
      * parameters - para - unused
      * return - none */
 
-    int set_sock_opt=1;
-
     int newsockfd=0;
     socklen_t clilen;
     struct sockaddr_in serv_addr, cli_addr;
@@ -153,7 +151,7 @@ void *listen_tcp(void *para)
 			pthread_attr_init(&attr);
 			pthread_attr_setdetachstate(&attr,PTHREAD_CREATE_DETACHED);
 
-			pthread_create(read_thread,&attr,read_tcp,NULL);
+			pthread_create(read_thread,&attr,read_main_tcp,NULL);
 			pthread_attr_destroy(&attr);
 
         }

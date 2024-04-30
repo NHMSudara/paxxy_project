@@ -5,6 +5,7 @@
 #define FAILED -1
 #define SUCCEEDED 0
 
+#define TRUE 1
 #define YES 1
 #define NO 0
 

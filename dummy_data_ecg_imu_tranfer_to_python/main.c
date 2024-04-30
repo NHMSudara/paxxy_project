@@ -214,11 +214,6 @@ int main(int argc, char **argv)
 	//open server socket
 	open_server_sockets();
 
-	// Create seperate threads for read_main_tcp and listen_tcp
-	pthread_t read_thread, listen_thread;
-	pthread_create(&read_thread, NULL, read_main_tcp, NULL);
-	pthread_create(&listen_thread, NULL, listen_tcp, NULL);
-
 	unsigned char file_name[FILE_NAME_LENGTH] = {0};
 	int file_i = 0;
 	uint8_t is_configured=NO;
