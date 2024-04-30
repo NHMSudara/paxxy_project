@@ -47,13 +47,13 @@
 unsigned char sw_pressed=NO;
 static mraa_gpio_context sw, led;
 
-
 pthread_cond_t cv;
 pthread_mutex_t mp;
 
 uint8_t timer_ticked_ads = NO, timer_ticked_bhi=NO;
 int ads_tick_count=0, bhi_tick_count=0, sw_count=0;
 uint8_t data_log_started=NO;
+int log_i = 0;
 
 typedef struct data
 {
@@ -187,7 +187,13 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298) //, struct ADS_se
 			//ads131->adc_buffer[ads131->adc_ri].channel[0], ads131->adc_buffer[ads131->adc_ri].channel[1], ads131->adc_buffer[ads131->adc_ri].channel[2],
 			//ads131->adc_buffer[ads131->adc_ri].channel[3]
 			fflush(data_file);
-			
+			log_i ++;
+			DataObject data;
+			data.id = log_i;
+			data.ra = ads1298->adc_buffer[ads1298->adc_ri].channel[3];
+			data.ll = ads1298->adc_buffer[ads1298->adc_ri].channel[4];
+			data.la = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
+			data.v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
 
 			if(ads_tick_count>=500)
 			{
