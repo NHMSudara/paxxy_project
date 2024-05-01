@@ -5,7 +5,7 @@
 
 //#define ADS131
 #define ADS1298
-//#define BHI260AP
+#define BHI260AP
 
 //#define ENABLE_ADS1298_TEST_SIGNAL
 //#define ENABLE_ADS131_TEST_SIGNAL

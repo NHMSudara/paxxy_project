@@ -65,10 +65,21 @@ typedef struct data
     int ll;
     int la;
     int v1;
-	int mc1;
-	int mc2;
-	int mc3;
-	int mc4;
+	int acc1_x;
+	int acc1_y;
+	int acc1_z;
+	int acc2_x;
+	int acc2_y;
+	int acc2_z;
+	int acc3_x;
+	int acc3_y;
+	int acc3_z;
+	int acc4_x;
+	int acc4_y;
+	int acc4_z;
+	int acc5_x;
+	int acc5_y;
+	int acc5_z;
 
 }DataObject;
 
@@ -205,10 +216,8 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 	{
 		if(YES==timer_ticked_ads)
 		{
-			fprintf(data_file,"%d,%d,%d,%d,%d,%d,%d,%d\n", ads1298->adc_buffer[ads1298->adc_ri].channel[3], ads1298->adc_buffer[ads1298->adc_ri].channel[4],
-					ads1298->adc_buffer[ads1298->adc_ri].channel[5], ads1298->adc_buffer[ads1298->adc_ri].channel[7],
-			ads131->adc_buffer[ads131->adc_ri].channel[0], ads131->adc_buffer[ads131->adc_ri].channel[1], ads131->adc_buffer[ads131->adc_ri].channel[2],
-			ads131->adc_buffer[ads131->adc_ri].channel[3]);
+			fprintf(data_file,"%d,%d,%d,%d\n", ads1298->adc_buffer[ads1298->adc_ri].channel[3], ads1298->adc_buffer[ads1298->adc_ri].channel[4],
+					ads1298->adc_buffer[ads1298->adc_ri].channel[5], ads1298->adc_buffer[ads1298->adc_ri].channel[7]);
 
 			fflush(data_file);
 
@@ -219,10 +228,21 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 			data.ll = ads1298->adc_buffer[ads1298->adc_ri].channel[4];
 			data.la = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
 			data.v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
-			data.mc1 = ads131->adc_buffer[ads131->adc_ri].channel[0];
-			data.mc2 = ads131->adc_buffer[ads131->adc_ri].channel[1];
-			data.mc3 = ads131->adc_buffer[ads131->adc_ri].channel[2];
-			data.mc4 = ads131->adc_buffer[ads131->adc_ri].channel[3];
+			data.acc1_x = sensor1->vector_buffer[sensor1->vector_ri].x;
+			data.acc1_y = sensor1->vector_buffer[sensor1->vector_ri].y;
+			data.acc1_z = sensor1->vector_buffer[sensor1->vector_ri].z;
+			data.acc2_x = sensor2->vector_buffer[sensor2->vector_ri].x;
+			data.acc2_y = sensor2->vector_buffer[sensor2->vector_ri].y;
+			data.acc2_z = sensor2->vector_buffer[sensor2->vector_ri].z;
+			data.acc3_x = sensor3->vector_buffer[sensor3->vector_ri].x;
+			data.acc3_y = sensor3->vector_buffer[sensor3->vector_ri].y;
+			data.acc3_z = sensor3->vector_buffer[sensor3->vector_ri].z;
+			data.acc4_x = sensor4->vector_buffer[sensor4->vector_ri].x;
+			data.acc4_y = sensor4->vector_buffer[sensor4->vector_ri].y;
+			data.acc4_z = sensor4->vector_buffer[sensor4->vector_ri].z;
+			data.acc5_x = sensor5->vector_buffer[sensor5->vector_ri].x;
+			data.acc5_y = sensor5->vector_buffer[sensor5->vector_ri].y;
+			data.acc5_z = sensor5->vector_buffer[sensor5->vector_ri].z;
 			
 
 			send_data_object(&data);
@@ -230,8 +250,8 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 			if(ads_tick_count>=500)
 			{
 				ads_tick_count = 0;
-				printf("ADS1298 %d - %d, ADS131 %d - %d\n", ads1298->int_count, ads1298->adc_count, ads131->int_count, ads131->adc_count);
-				//printf("ADS1298 %d - %d\n", ads1298->int_count, ads1298->adc_count);
+				//printf("ADS1298 %d - %d, ADS131 %d - %d\n", ads1298->int_count, ads1298->adc_count, ads131->int_count, ads131->adc_count);
+				printf("ADS1298 %d - %d\n", ads1298->int_count, ads1298->adc_count);
 				ads1298->adc_count = 0;
 				ads131->adc_count = 0;
 				ads1298->int_count = 0;
