@@ -21,7 +21,7 @@ PORT = 6789
 subprocess.Popen(["./main"])
 
 # Define the DataObject structure in Python
-class DataObject:
+class ECGdata:
     def __init__(self, id, ra, ll, la, v1):
         self.id = id
         self.ra = ra
@@ -36,7 +36,7 @@ def receive_data(socket):
     # Unpack binary data into DataObject
     id, ra, ll, la, v1 = struct.unpack("Iiiii", data)
 
-    return DataObject(id, ra, ll, la, v1)
+    return ECGdata(id, ra, ll, la, v1)
 
 
 
