@@ -31,7 +31,8 @@ class ECGdata:
 
 # Define the BHIdata object in python
 class BHIdata:
-    def __init__(self, imuNum, imuX, imuY, imuZ):
+    def __init__(self, id, imuNum, imuX, imuY, imuZ):
+        self.id = id
         self.n = imuNum
         self.x = imuX
         self.y = imuY
@@ -53,12 +54,12 @@ def receive_ecg_data(socket):
 
 def recieve_bhi_data(socket):
     # Receive binary data from the socket
-    bhiData = socket.recv(struct.calcsize("iiii"))
+    bhiData = socket.recv(struct.calcsize("Iiiii"))
 
     # Unpack binary data into DataObject
-    n, x, y, z = struct.unpack("iiii",bhiData)
+    id, n, x, y, z = struct.unpack("Iiiii",bhiData)
 
-    return bhiData(n, x, y, z)
+    return bhiData(id, n, x, y, z)
 
 
 #################################################################

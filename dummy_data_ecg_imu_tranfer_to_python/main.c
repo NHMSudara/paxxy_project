@@ -72,6 +72,7 @@ typedef struct ecgData
 typedef struct bhiData
 {
 	/* data */
+	int id;
 	int imuNum;
 	int imuX;
 	int imuY;
@@ -154,10 +155,12 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 	{
 		if(YES==timer_ticked_bhi)
 		{
+			log_bhi_i ++;
 #ifdef BHI_SENSOR1
 			fprintf(data_file,"%d,%d,%d,", sensor1->vector_buffer[sensor1->vector_ri].x, sensor1->vector_buffer[sensor1->vector_ri].y,
 								sensor1->vector_buffer[sensor1->vector_ri].z);
 			BHIdata bhi1;
+			bhi1.id = log_bhi_i;
 			bhi1.imuNum = 1;
 			bhi1.imuX = sensor1->vector_buffer[sensor1->vector_ri].x;
 			bhi1.imuY = sensor1->vector_buffer[sensor1->vector_ri].y;
@@ -168,6 +171,7 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 			fprintf(data_file,"%d,%d,%d,", sensor2->vector_buffer[sensor2->vector_ri].x, sensor2->vector_buffer[sensor2->vector_ri].y,
 								sensor2->vector_buffer[sensor2->vector_ri].z);
 			BHIdata bhi2;
+			bhi2.id = log_bhi_i;
 			bhi2.imuNum = 2;
 			bhi2.imuX = sensor2->vector_buffer[sensor2->vector_ri].x;
 			bhi2.imuY = sensor2->vector_buffer[sensor2->vector_ri].y;
@@ -178,6 +182,7 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 			fprintf(data_file,"%d,%d,%d", sensor3->vector_buffer[sensor3->vector_ri].x, sensor3->vector_buffer[sensor3->vector_ri].y,
 								sensor3->vector_buffer[sensor3->vector_ri].z);
 			BHIdata bhi3;
+			bhi3.id = log_bhi_i;
 			bhi3.imuNum = 3;
 			bhi3.imuX = sensor3->vector_buffer[sensor3->vector_ri].x;
 			bhi3.imuY = sensor3->vector_buffer[sensor3->vector_ri].y;
@@ -190,6 +195,7 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 								//sensor4->euler_buffer[sensor4->euler_ri].heading, sensor4->euler_buffer[sensor4->euler_ri].pitch,
 								//sensor4->euler_buffer[sensor4->euler_ri].roll)
 			BHIdata bhi4;
+			bhi4.id = log_bhi_i;
 			bhi4.imuNum = 4;
 			bhi4.imuX = sensor4->vector_buffer[sensor4->vector_ri].x;
 			bhi4.imuY = sensor4->vector_buffer[sensor4->vector_ri].y;
@@ -200,6 +206,7 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 			fprintf(data_file,"%d,%d,%d,", sensor5->vector_buffer[sensor5->vector_ri].x, sensor5->vector_buffer[sensor5->vector_ri].y,
 								sensor5->vector_buffer[sensor5->vector_ri].z);
 			BHIdata bhi5;
+			bhi5.id = log_bhi_i;
 			bhi5.imuNum = 5;
 			bhi5.imuX = sensor5->vector_buffer[sensor5->vector_ri].x;
 			bhi5.imuY = sensor5->vector_buffer[sensor5->vector_ri].y;
@@ -260,7 +267,7 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 
 			log_ads_i ++;
 			ECGdata ecgData;
-			ecgData.id = log_i;
+			ecgData.id = log_ads_i;
 			ecgData.ra = ads1298->adc_buffer[ads1298->adc_ri].channel[3];
 			ecgData.ll = ads1298->adc_buffer[ads1298->adc_ri].channel[4];
 			ecgData.la = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
