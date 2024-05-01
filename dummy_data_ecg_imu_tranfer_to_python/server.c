@@ -90,8 +90,11 @@ void *read_main_tcp (void *arg)
 	rx_count = read(tcp_socket,rx_buffer,MAX_TCP_PACKET_SIZE);
 	while(rx_count>0)
 	{
+		int status;
+		memcpy(&status, rx_buffer, sizeof(int));
+		STATUS = status;
 //		main_tcp_message_parse(conn,rx_buffer,rx_count);
-		rx_count = read(tcp_socket,rx_buffer,MAX_TCP_PACKET_SIZE); //conn->
+//		rx_count = read(tcp_socket,rx_buffer,MAX_TCP_PACKET_SIZE); //conn->
 	}
 
 

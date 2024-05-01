@@ -238,9 +238,11 @@ def process(signal, extra):
         print(temp_ar)
         boink(temp_ar)
 
+STATUS = int(input("Enter 1 for dummy data, 2 for live data: "))
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
+    s.send(struct.pack("I", STATUS))
     extra = []   #To save extra data for filter transient removal
     
     while True:

@@ -11,6 +11,7 @@
 
 #define PROCESSING 2
 #define VS_CONFIGURED 2
+#define STATUS
 
 union int24_values
 {
