@@ -57,7 +57,7 @@ int ads_tick_count=0, bhi_tick_count=0, sw_count=0;
 uint8_t data_log_started=NO;
 int log_i = 0;
 
-typedef struct data
+typedef struct ecgData
 {
 	/* data */
     int id;
@@ -66,7 +66,7 @@ typedef struct data
     int la;
     int v1;
 
-}DataObject;
+}ECGdata;
 
 
 
@@ -208,12 +208,12 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 			fflush(data_file);
 
 			log_i ++;
-			DataObject data;
-			data.id = log_i;
-			data.ra = ads1298->adc_buffer[ads1298->adc_ri].channel[3];
-			data.ll = ads1298->adc_buffer[ads1298->adc_ri].channel[4];
-			data.la = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
-			data.v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
+			ECGdata ecgData;
+			ecgData.id = log_i;
+			ecgData.ra = ads1298->adc_buffer[ads1298->adc_ri].channel[3];
+			ecgData.ll = ads1298->adc_buffer[ads1298->adc_ri].channel[4];
+			ecgData.la = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
+			ecgData.v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
 			
 			send_data_object(&data);
 
