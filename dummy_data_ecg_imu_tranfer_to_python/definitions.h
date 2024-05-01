@@ -12,8 +12,6 @@
 #define PROCESSING 2
 #define VS_CONFIGURED 2
 
-extern int STATUS;
-
 union int24_values
 {
 	int32_t i32;
