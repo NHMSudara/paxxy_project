@@ -176,11 +176,11 @@ def get_hrlis_mat(signal, threshold_ratio, refractory_period):
     print('mHRtime =', time_indices)
     print('mHR = ', hr_bpm)
 
-STATUS = int(input("Enter 1 for dummy data, 2 for live data: "))
+#STATUS = int(input("Enter 1 for dummy data, 2 for live data: "))
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
-    s.send(struct.pack("I", STATUS))
+    #s.send(struct.pack("I", STATUS))
     extra = []   #To save extra data for filter transient removal
     
     while True:
