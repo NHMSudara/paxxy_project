@@ -42,7 +42,7 @@ def receive_data(socket):
 
     return DataObject(id, ra, ll, la, v1, mc1, mc2, mc3, mc4)
 
-STATUS = 2
+
 
 #################################################################
 
@@ -175,6 +175,8 @@ def get_hrlis_mat(signal, threshold_ratio, refractory_period):
     return median
     print('mHRtime =', time_indices)
     print('mHR = ', hr_bpm)
+
+STATUS = int(input("Enter 1 for dummy data, 2 for live data: "))
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
