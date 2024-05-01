@@ -11,7 +11,8 @@
 
 #define PROCESSING 2
 #define VS_CONFIGURED 2
-#define STATUS 0
+
+extern int STATUS = 0;
 
 union int24_values
 {
