@@ -12,7 +12,7 @@
 #define PROCESSING 2
 #define VS_CONFIGURED 2
 
-extern int STATUS = 0;
+extern int STATUS;
 
 union int24_values
 {
