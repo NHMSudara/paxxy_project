@@ -22,36 +22,21 @@ subprocess.Popen(["./main"])
 
 # Define the DataObject structure in Python
 class DataObject:
-    def __init__(self, id, ra, ll, la, v1, acc1_x, acc1_y, acc1_z, acc2_x, acc2_y, acc2_z, acc3_x, acc3_y, acc3_z, acc4_x, acc4_y, acc4_z, acc5_x, acc5_y, acc5_z):
+    def __init__(self, id, ra, ll, la, v1):
         self.id = id
         self.ra = ra
         self.ll= ll
         self.la = la
         self.v1 = v1
-        self.acc1_x = acc1_x
-        self.acc1_y = acc1_y
-        self.acc1_z = acc1_z
-        self.acc2_x = acc2_x
-        self.acc2_y = acc2_y
-        self.acc2_z = acc2_z
-        self.acc3_x = acc3_x
-        self.acc3_y = acc3_y
-        self.acc3_z = acc3_z
-        self.acc4_x = acc4_x
-        self.acc4_y = acc4_y
-        self.acc4_z = acc4_z
-        self.acc5_x = acc5_x
-        self.acc5_y = acc5_y
-        self.acc5_z = acc5_z
     
 def receive_data(socket):
     # Receive binary data from the socket
-    data = socket.recv(struct.calcsize("Iiiiiiiiiiiiiiiiiiii"))
+    data = socket.recv(struct.calcsize("Iiiii"))
 
     # Unpack binary data into DataObject
-    id, ra, ll, la, v1, acc1_x, acc1_y, acc1_z, acc2_x, acc2_y, acc2_z, acc3_x, acc3_y, acc3_z, acc4_x, acc4_y, acc4_z, acc5_x, acc5_y, acc5_z = struct.unpack("Iiiiiiiiiiiiiiiiiiii", data)
+    id, ra, ll, la, v1 = struct.unpack("Iiiii", data)
 
-    return DataObject(id, ra, ll, la, v1, acc1_x, acc1_y, acc1_z, acc2_x, acc2_y, acc2_z, acc3_x, acc3_y, acc3_z, acc4_x, acc4_y, acc4_z, acc5_x, acc5_y, acc5_z)
+    return DataObject(id, ra, ll, la, v1)
 
 
 
