@@ -55,7 +55,8 @@ pthread_mutex_t mp;
 uint8_t timer_ticked_ads = NO, timer_ticked_bhi=NO;
 int ads_tick_count=0, bhi_tick_count=0, sw_count=0;
 uint8_t data_log_started=NO;
-int log_i = 0;
+int log_ads_i = 0;
+int log_bhi_i = 0;
 
 typedef struct ecgData
 {
@@ -68,7 +69,15 @@ typedef struct ecgData
 
 }ECGdata;
 
+typedef struct bhiData
+{
+	/* data */
+	int imuNum;
+	int imuX;
+	int imuY;
+	int imuZ;
 
+}BHIdata;
 
 void handle_termination(int signum){
     printf("Server socket is clossing");
@@ -83,7 +92,7 @@ void wake(void)
 	pthread_mutex_unlock(&mp);
 }
 
-void send_data_object(ECGdata *data) {
+void send_ecg_data(ECGdata *data) {
     unsigned char serialized_data[sizeof(ECGdata)]; // Allocate buffer for serialized data
 
     // Serialize the data object into a byte array
@@ -94,11 +103,23 @@ void send_data_object(ECGdata *data) {
 
     // Send the serialized data over TCP
     if (write_tcp_thread_safe(serialized_data, data_size) == FAILED) {
-        printf("Failed to send data object\n");
+        printf("Failed to send ECG data object\n");
     } 
-	// else {
-    //     printf("Data object sent successfully\n");
-    // }
+}
+
+void send_bhi_data(BHIdata *data) {
+    unsigned char serialized_data[sizeof(BHIdata)]; // Allocate buffer for serialized data
+
+    // Serialize the data object into a byte array
+    memcpy(serialized_data, data, sizeof(BHIdata));
+
+    // Calculate the size of the serialized data
+    size_t data_size = sizeof(serialized_data);
+
+    // Send the serialized data over TCP
+    if (write_tcp_thread_safe(serialized_data, data_size) == FAILED) {
+        printf("Failed to send BHI data object\n");
+    } 
 }
 
 void switch_int_handler(void* args)
@@ -136,25 +157,54 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 #ifdef BHI_SENSOR1
 			fprintf(data_file,"%d,%d,%d,", sensor1->vector_buffer[sensor1->vector_ri].x, sensor1->vector_buffer[sensor1->vector_ri].y,
 								sensor1->vector_buffer[sensor1->vector_ri].z);
-			
+			BHIdata bhi1;
+			bhi1.imuNum = 1;
+			bhi1.imuX = sensor1->vector_buffer[sensor1->vector_ri].x;
+			bhi1.imuY = sensor1->vector_buffer[sensor1->vector_ri].y;
+			bhi1.imuY = sensor1->vector_buffer[sensor1->vector_ri].y;
+			send_bhi_data(&bhi1);
 #endif
 #ifdef BHI_SENSOR2
 			fprintf(data_file,"%d,%d,%d,", sensor2->vector_buffer[sensor2->vector_ri].x, sensor2->vector_buffer[sensor2->vector_ri].y,
 								sensor2->vector_buffer[sensor2->vector_ri].z);
+			BHIdata bhi2;
+			bhi2.imuNum = 2;
+			bhi2.imuX = sensor2->vector_buffer[sensor2->vector_ri].x;
+			bhi2.imuY = sensor2->vector_buffer[sensor2->vector_ri].y;
+			bhi2.imuY = sensor2->vector_buffer[sensor2->vector_ri].y;
+			send_bhi_data(&bhi2);
 #endif
 #ifdef BHI_SENSOR3
 			fprintf(data_file,"%d,%d,%d", sensor3->vector_buffer[sensor3->vector_ri].x, sensor3->vector_buffer[sensor3->vector_ri].y,
 								sensor3->vector_buffer[sensor3->vector_ri].z);
+			BHIdata bhi3;
+			bhi3.imuNum = 3;
+			bhi3.imuX = sensor3->vector_buffer[sensor3->vector_ri].x;
+			bhi3.imuY = sensor3->vector_buffer[sensor3->vector_ri].y;
+			bhi3.imuY = sensor3->vector_buffer[sensor3->vector_ri].y;
+			send_bhi_data(&bhi3);
 #endif
 #ifdef BHI_SENSOR4
 			fprintf(data_file,"%d,%d,%d,", sensor4->vector_buffer[sensor4->vector_ri].x, sensor4->vector_buffer[sensor4->vector_ri].y,
 								sensor4->vector_buffer[sensor4->vector_ri].z);
 								//sensor4->euler_buffer[sensor4->euler_ri].heading, sensor4->euler_buffer[sensor4->euler_ri].pitch,
 								//sensor4->euler_buffer[sensor4->euler_ri].roll)
+			BHIdata bhi4;
+			bhi4.imuNum = 4;
+			bhi4.imuX = sensor4->vector_buffer[sensor4->vector_ri].x;
+			bhi4.imuY = sensor4->vector_buffer[sensor4->vector_ri].y;
+			bhi4.imuY = sensor4->vector_buffer[sensor4->vector_ri].y;
+			send_bhi_data(&bhi4);
 #endif
 #ifdef BHI_SENSOR5
 			fprintf(data_file,"%d,%d,%d,", sensor5->vector_buffer[sensor5->vector_ri].x, sensor5->vector_buffer[sensor5->vector_ri].y,
 								sensor5->vector_buffer[sensor5->vector_ri].z);
+			BHIdata bhi5;
+			bhi5.imuNum = 5;
+			bhi5.imuX = sensor5->vector_buffer[sensor5->vector_ri].x;
+			bhi5.imuY = sensor5->vector_buffer[sensor5->vector_ri].y;
+			bhi5.imuY = sensor5->vector_buffer[sensor5->vector_ri].y;
+			send_bhi_data(&bhi5);
 #endif
 			fprintf(data_file,"\n");
 			fflush(data_file);
@@ -208,7 +258,7 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 
 			fflush(data_file);
 
-			log_i ++;
+			log_ads_i ++;
 			ECGdata ecgData;
 			ecgData.id = log_i;
 			ecgData.ra = ads1298->adc_buffer[ads1298->adc_ri].channel[3];
@@ -216,7 +266,7 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 			ecgData.la = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
 			ecgData.v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
 			
-			send_data_object(&ecgData);
+			send_ecg_data(&ecgData);
 
 			if(ads_tick_count>=500)
 			{

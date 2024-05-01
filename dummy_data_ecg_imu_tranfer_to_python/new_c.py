@@ -20,7 +20,7 @@ PORT = 6789
 
 subprocess.Popen(["./main"])
 
-# Define the DataObject structure in Python
+# Define the ECGdata object in python
 class ECGdata:
     def __init__(self, id, ra, ll, la, v1):
         self.id = id
@@ -28,16 +28,37 @@ class ECGdata:
         self.ll= ll
         self.la = la
         self.v1 = v1
+
+# Define the BHIdata object in python
+class BHIdata:
+    def __init__(self, imuNum, imuX, imuY, imuZ):
+        self.n = imuNum
+        self.x = imuX
+        self.y = imuY
+        self.z = imuZ
+
+class data:
+    def __init__(self, ecg, bhi):
+        self.ecg = ecg
+        self.bhi = bhi
     
-def receive_data(socket):
+def receive_ecg_data(socket):
     # Receive binary data from the socket
-    data = socket.recv(struct.calcsize("Iiiii"))
+    ecgData = socket.recv(struct.calcsize("Iiiii"))
 
     # Unpack binary data into DataObject
-    id, ra, ll, la, v1 = struct.unpack("Iiiii", data)
-
+    id, ra, ll, la, v1 = struct.unpack("Iiiii", ecgData)
+    
     return ECGdata(id, ra, ll, la, v1)
 
+def recieve_bhi_data(socket):
+    # Receive binary data from the socket
+    bhiData = socket.recv(struct.calcsize("iiii"))
+
+    # Unpack binary data into DataObject
+    n, x, y, z = struct.unpack("iiii",bhiData)
+
+    return bhiData(n, x, y, z)
 
 
 #################################################################
@@ -196,7 +217,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         as4s = []
 
         while (l_looper<=3000):
-            data = receive_data(s)
+            data = receive_ecg_data(s)
             if not data:
                 break
             # Process the received data in real-time
