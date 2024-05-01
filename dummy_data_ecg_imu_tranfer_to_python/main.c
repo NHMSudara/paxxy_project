@@ -83,11 +83,11 @@ void wake(void)
 	pthread_mutex_unlock(&mp);
 }
 
-void send_data_object(DataObject *data) {
-    unsigned char serialized_data[sizeof(DataObject)]; // Allocate buffer for serialized data
+void send_data_object(ECGdata *data) {
+    unsigned char serialized_data[sizeof(ECGdata)]; // Allocate buffer for serialized data
 
     // Serialize the data object into a byte array
-    memcpy(serialized_data, data, sizeof(DataObject));
+    memcpy(serialized_data, data, sizeof(ECGdata));
 
     // Calculate the size of the serialized data
     size_t data_size = sizeof(serialized_data);
@@ -215,7 +215,7 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 			ecgData.la = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
 			ecgData.v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
 			
-			send_data_object(&data);
+			send_data_object(&ecgData);
 
 			if(ads_tick_count>=500)
 			{
