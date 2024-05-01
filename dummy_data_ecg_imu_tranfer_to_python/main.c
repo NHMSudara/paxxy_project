@@ -42,6 +42,8 @@
 #include "BHI260AP.h"
 #include "server.h"
 
+int STATUS = 0;
+
 #define FILE_NAME_LENGTH 40
 #define DUMMY_DATA_FILE_PATH "paxxy_data.csv"
 
