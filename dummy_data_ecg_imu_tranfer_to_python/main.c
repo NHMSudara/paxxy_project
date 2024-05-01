@@ -95,9 +95,10 @@ void send_data_object(ECGdata *data) {
     // Send the serialized data over TCP
     if (write_tcp_thread_safe(serialized_data, data_size) == FAILED) {
         printf("Failed to send data object\n");
-    } else {
-        printf("Data object sent successfully\n");
-    }
+    } 
+	// else {
+    //     printf("Data object sent successfully\n");
+    // }
 }
 
 void switch_int_handler(void* args)
