@@ -59,7 +59,7 @@ def recieve_bhi_data(socket):
     # Unpack binary data into DataObject
     id, n, x, y, z = struct.unpack("Iiiii",bhiData)
 
-    return bhiData(id, n, x, y, z)
+    return BHIdata(id, n, x, y, z)
 
 
 #################################################################
