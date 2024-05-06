@@ -7,8 +7,8 @@
 #define ADS1298
 #define BHI260AP
 
-#define ENABLE_ADS1298_TEST_SIGNAL
-#define ENABLE_ADS131_TEST_SIGNAL
+//#define ENABLE_ADS1298_TEST_SIGNAL
+//#define ENABLE_ADS131_TEST_SIGNAL
 
 #define VS_DATA_UPDATE_RATE 50.0		//virtual sensor data update rate
 
@@ -91,9 +91,11 @@
 #define PACE_VALUE 0x00
 #define RESP_VALUE 0xF0
 #define CONFIG4_VALUE 0x00
-#define WCT1_VALUE 0x02
-#define WCT2_VALUE 0x23
+#define WCT1_VALUE 0x0B
+#define WCT2_VALUE 0xD4
+
+#define SERVER_TCP_PORT 6789
 
 #endif
 
-#define SERVER_TCP_PORT 6789
+
