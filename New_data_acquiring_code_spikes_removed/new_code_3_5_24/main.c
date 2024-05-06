@@ -60,7 +60,21 @@ typedef union
 		int as4;
 	}_;
 	unsigned char uc[36];
-}DataObject;
+}ECGdata;
+
+typedef union
+{
+	struct 
+	{
+		int id;
+		int imuNum;
+		int x;
+		int y;
+		int z;
+	}_;
+	unsigned char uc[20];
+}BHIdata;
+
 
 unsigned char sw_pressed=NO;
 static mraa_gpio_context sw, led;
@@ -73,7 +87,8 @@ uint8_t timer_ticked_ads = NO, timer_ticked_bhi=NO;
 int ads_tick_count=0, bhi_tick_count=0, sw_count=0;
 uint8_t data_log_started=NO;
 
-int tx_i = 1;
+int tx_ads_i = 0;
+int tx_bhi_i = 0;
 
 void wake(void)
 {
@@ -110,6 +125,9 @@ void timer_callback(int signum)
 void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor *sensor2, struct BHI_sensor *sensor3,
 						struct BHI_sensor *sensor4, struct BHI_sensor *sensor5)
 {
+	BHIdata bhiData;
+	tx_bhi_i++;
+
 	if(YES==data_log_started)
 	{
 		if(YES==timer_ticked_bhi)
@@ -117,23 +135,71 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 #ifdef BHI_SENSOR1
 			fprintf(data_file,"%d,%d,%d,", sensor1->vector_buffer[sensor1->vector_ri].x, sensor1->vector_buffer[sensor1->vector_ri].y,
 								sensor1->vector_buffer[sensor1->vector_ri].z);
+			if(YES==is_tcp_client_connected())
+			{
+				bhiData._.id = tx_bhi_i;
+				bhiData._.imuNum = 1;
+				bhiData._.x = sensor1->vector_buffer[sensor1->vector_ri].x;
+				bhiData._.y = sensor1->vector_buffer[sensor1->vector_ri].y;
+				bhiData._.z = sensor1->vector_buffer[sensor1->vector_ri].z;
+				write_tcp_thread_safe(bhiData.uc, 20);
+			}
+			
 #endif
 #ifdef BHI_SENSOR2
 			fprintf(data_file,"%d,%d,%d,", sensor2->vector_buffer[sensor2->vector_ri].x, sensor2->vector_buffer[sensor2->vector_ri].y,
 								sensor2->vector_buffer[sensor2->vector_ri].z);
+			if(YES==is_tcp_client_connected())
+			{
+				bhiData._.id = tx_bhi_i;
+				bhiData._.imuNum = 2;
+				bhiData._.x = sensor2->vector_buffer[sensor2->vector_ri].x;
+				bhiData._.y = sensor2->vector_buffer[sensor2->vector_ri].y;
+				bhiData._.z = sensor2->vector_buffer[sensor2->vector_ri].z;
+				write_tcp_thread_safe(bhiData.uc, 20);
+			}
 #endif
 #ifdef BHI_SENSOR3
 			fprintf(data_file,"%d,%d,%d,", sensor3->vector_buffer[sensor3->vector_ri].x, sensor3->vector_buffer[sensor3->vector_ri].y,
 								sensor3->vector_buffer[sensor3->vector_ri].z);
+			if(YES==is_tcp_client_connected())
+			{
+				bhiData._.id = tx_bhi_i;
+				bhiData._.imuNum = 3;
+				bhiData._.x = sensor3->vector_buffer[sensor3->vector_ri].x;
+				bhiData._.y = sensor3->vector_buffer[sensor3->vector_ri].y;
+				bhiData._.z = sensor3->vector_buffer[sensor3->vector_ri].z;
+				write_tcp_thread_safe(bhiData.uc, 20);
+			}
 #endif
 #ifdef BHI_SENSOR4
-			fprintf(data_file,"%d,%d,%d,%d,%d,%d,", sensor4->vector_buffer[sensor4->vector_ri].x, sensor4->vector_buffer[sensor4->vector_ri].y,
-								sensor4->vector_buffer[sensor4->vector_ri].z, sensor4->euler_buffer[sensor4->euler_ri].heading, sensor4->euler_buffer[sensor4->euler_ri].pitch,
-								sensor4->euler_buffer[sensor4->euler_ri].roll);
+			// fprintf(data_file,"%d,%d,%d,%d,%d,%d,", sensor4->vector_buffer[sensor4->vector_ri].x, sensor4->vector_buffer[sensor4->vector_ri].y,
+			// 					sensor4->vector_buffer[sensor4->vector_ri].z, sensor4->euler_buffer[sensor4->euler_ri].heading, sensor4->euler_buffer[sensor4->euler_ri].pitch,
+			// 					sensor4->euler_buffer[sensor4->euler_ri].roll);
+			fprintf(data_file,"%d,%d,%d,", sensor4->vector_buffer[sensor4->vector_ri].x, sensor4->vector_buffer[sensor4->vector_ri].y,
+								sensor4->vector_buffer[sensor4->vector_ri].z);
+			if(YES==is_tcp_client_connected())
+			{
+				bhiData._.id = tx_bhi_i;
+				bhiData._.imuNum = 4;
+				bhiData._.x = sensor4->vector_buffer[sensor4->vector_ri].x;
+				bhiData._.y = sensor4->vector_buffer[sensor4->vector_ri].y;
+				bhiData._.z = sensor4->vector_buffer[sensor4->vector_ri].z;
+				write_tcp_thread_safe(bhiData.uc, 20);
+			}
 #endif
 #ifdef BHI_SENSOR5
-			fprintf(data_file,"%d,%d,%d", sensor5->euler_buffer[sensor5->euler_ri].heading, sensor5->euler_buffer[sensor5->euler_ri].pitch,
-								sensor5->euler_buffer[sensor5->euler_ri].roll);
+			fprintf(data_file,"%d,%d,%d,", sensor5->vector_buffer[sensor5->vector_ri].x, sensor5->vector_buffer[sensor5->vector_ri].y,
+								sensor5->vector_buffer[sensor5->vector_ri].z);
+			if(YES==is_tcp_client_connected())
+			{
+				bhiData._.id = tx_bhi_i;
+				bhiData._.imuNum = 5;
+				bhiData._.x = sensor5->vector_buffer[sensor5->vector_ri].x;
+				bhiData._.y = sensor5->vector_buffer[sensor5->vector_ri].y;
+				bhiData._.z = sensor5->vector_buffer[sensor5->vector_ri].z;
+				write_tcp_thread_safe(bhiData.uc, 20);
+			}
 #endif
 			fprintf(data_file,"\n");
 			fflush(data_file);
@@ -177,32 +243,25 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 #if defined(ADS1298) || defined(ADS131)
 void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor *ads131)
 {
-	DataObject data;
+	ECGdata ecgData;
 
 	if(YES==data_log_started)
 	{
 		if(YES==timer_ticked_ads)
 		{
-			fprintf(data_file,"%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n",ads1298->adc_buffer[ads1298->adc_ri].channel[0], ads1298->adc_buffer[ads1298->adc_ri].channel[1],
+			fprintf(data_file,"%d,%d,%d,%d,%d,%d,%d,%d\n",ads1298->adc_buffer[ads1298->adc_ri].channel[0], ads1298->adc_buffer[ads1298->adc_ri].channel[1],
 					ads1298->adc_buffer[ads1298->adc_ri].channel[2], ads1298->adc_buffer[ads1298->adc_ri].channel[3], ads1298->adc_buffer[ads1298->adc_ri].channel[4],
-					ads1298->adc_buffer[ads1298->adc_ri].channel[5], ads1298->adc_buffer[ads1298->adc_ri].channel[6], ads1298->adc_buffer[ads1298->adc_ri].channel[7],
-					ads131->adc_buffer[ads131->adc_ri].channel[0], ads131->adc_buffer[ads131->adc_ri].channel[1], ads131->adc_buffer[ads131->adc_ri].channel[2],
-					ads131->adc_buffer[ads131->adc_ri].channel[3]);
+					ads1298->adc_buffer[ads1298->adc_ri].channel[5], ads1298->adc_buffer[ads1298->adc_ri].channel[6], ads1298->adc_buffer[ads1298->adc_ri].channel[7]);
 			fflush(data_file);
 
 			if(YES==is_tcp_client_connected())
 			{
-				data._.id = tx_i++;
-				data._.as1 = ads131->adc_buffer[ads131->adc_ri].channel[0];
-				data._.as2 = ads131->adc_buffer[ads131->adc_ri].channel[1];
-				data._.as3 = ads131->adc_buffer[ads131->adc_ri].channel[2];
-				data._.as4 = ads131->adc_buffer[ads131->adc_ri].channel[3];
-				data._.la = ads1298->adc_buffer[ads1298->adc_ri].channel[3];
-				data._.ll = ads1298->adc_buffer[ads1298->adc_ri].channel[4];
-				data._.ra = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
-				data._.v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
-
-				write_tcp_thread_safe(data.uc, 36);
+				ecgData._.id = tx_ads_i++;
+				ecgData._.la = ads1298->adc_buffer[ads1298->adc_ri].channel[3];
+				ecgData._.ll = ads1298->adc_buffer[ads1298->adc_ri].channel[4];
+				ecgData._.ra = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
+				ecgData._.v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
+				write_tcp_thread_safe(ecgData.uc, 36);
 			}
 			if(ads_tick_count>=500)
 			{
