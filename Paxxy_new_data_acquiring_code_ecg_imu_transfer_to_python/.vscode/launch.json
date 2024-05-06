@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/exceltech/paxxy_github/paxxy_project/Paxxy_new_data_acquiring_code_ecg_imu_tranfer_to_python",
-      "program": "d:/exceltech/paxxy_github/paxxy_project/Paxxy_new_data_acquiring_code_ecg_imu_tranfer_to_python/build/Debug/outDebug",
+      "cwd": "d:/exceltech/paxxy_github/paxxy_project/Paxxy_new_data_acquiring_code_ecg_imu_transfer_to_python",
+      "program": "d:/exceltech/paxxy_github/paxxy_project/Paxxy_new_data_acquiring_code_ecg_imu_transfer_to_python/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
