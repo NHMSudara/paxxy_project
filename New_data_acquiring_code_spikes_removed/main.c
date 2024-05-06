@@ -90,6 +90,12 @@ uint8_t data_log_started=NO;
 int tx_ads_i = 0;
 int tx_bhi_i = 0;
 
+void handle_termination(int signum){
+    printf("Server socket is clossing");
+    close_server_sockets();
+    exit(EXIT_SUCCESS);
+}
+
 void wake(void)
 {
 	pthread_mutex_lock(&mp);
