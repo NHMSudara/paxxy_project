@@ -54,12 +54,8 @@ typedef union
 		int ll;
 		int la;
 		int v1;
-		int as1;
-		int as2;
-		int as3;
-		int as4;
 	}_;
-	unsigned char uc[36];
+	unsigned char uc[20];
 }ECGdata;
 
 typedef union
@@ -267,7 +263,7 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 				ecgData._.ll = ads1298->adc_buffer[ads1298->adc_ri].channel[4];
 				ecgData._.ra = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
 				ecgData._.v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
-				write_tcp_thread_safe(ecgData.uc, 36);
+				write_tcp_thread_safe(ecgData.uc, 20);
 			}
 			if(ads_tick_count>=500)
 			{
