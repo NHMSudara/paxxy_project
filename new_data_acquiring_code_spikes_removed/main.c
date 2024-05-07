@@ -420,7 +420,7 @@ int main(int argc, char **argv)
 	}
 #endif
 
-#ifdef ADS131
+/*#ifdef ADS131
 
 	if(SUCCEEDED == ADS131_init_device(&ads131))
 	{	
@@ -431,7 +431,7 @@ int main(int argc, char **argv)
 		printf("FAILED initialization of ADS131\n");
 		exit(FAILED);
 	}
-#endif
+#endif*/
 
 	while(1)	//(count<30000)
 	{
@@ -446,14 +446,14 @@ int main(int argc, char **argv)
 		log_ads_data(ADS_data_file, &ads1298, &ads131);
 #endif
 
-#ifdef ADS131
+/*#ifdef ADS131
 		if(YES == ads131.data_ready)
 		{
 			ads131.data_ready = NO;
 			ADS131_get_and_process_data(&ads131);
 		}
 		log_ads_data(ADS_data_file, &ads1298, &ads131);
-#endif
+#endif*/
 
 #ifdef BHI260AP
 #ifdef BHI_SENSOR1
@@ -478,14 +478,14 @@ int main(int argc, char **argv)
 		log_ads_data(ADS_data_file, &ads1298, &ads131);
 #endif
 
-#ifdef ADS131
+/*#ifdef ADS131
 		if(YES == ads131.data_ready)
 		{
 			ads131.data_ready = NO;
 			ADS131_get_and_process_data(&ads131);
 		}
 		log_ads_data(ADS_data_file, &ads1298, &ads131);
-#endif
+#endif*/
 
 #ifdef BHI_SENSOR2
 		if(YES == bhi_sensor2.data_ready)
@@ -509,14 +509,14 @@ int main(int argc, char **argv)
 		log_ads_data(ADS_data_file, &ads1298, &ads131);
 #endif
 
-#ifdef ADS131
+/*#ifdef ADS131
 		if(YES == ads131.data_ready)
 		{
 			ads131.data_ready = NO;
 			ADS131_get_and_process_data(&ads131);
 		}
 		log_ads_data(ADS_data_file, &ads1298, &ads131);
-#endif
+#endif*/
 
 #ifdef BHI_SENSOR3
 		if(YES == bhi_sensor3.data_ready)
