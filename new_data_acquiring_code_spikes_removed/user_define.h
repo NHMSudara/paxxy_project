@@ -7,8 +7,8 @@
 #define ADS1298
 //#define BHI260AP
 
-#define ENABLE_ADS1298_TEST_SIGNAL
-#define ENABLE_ADS131_TEST_SIGNAL
+//#define ENABLE_ADS1298_TEST_SIGNAL
+//#define ENABLE_ADS131_TEST_SIGNAL
 
 #define VS_DATA_UPDATE_RATE 50.0		//virtual sensor data update rate
 
