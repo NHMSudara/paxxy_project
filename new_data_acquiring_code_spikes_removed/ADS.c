@@ -557,7 +557,7 @@ uint8_t *ads131_spi_write_buf(struct ADS_sensor *sensor, unsigned char *data, in
 	return rx;
 }
 
-static int ads131_configure_register(struct ADS_sensor *sensor, unsigned char register_address, unsigned short register_value)
+/*static int ads131_configure_register(struct ADS_sensor *sensor, unsigned char register_address, unsigned short register_value)
 {
 
 	uint8_t tx_buff[32] = {0};
@@ -612,7 +612,7 @@ static int ads131_configure_register(struct ADS_sensor *sensor, unsigned char re
 		return SUCCEEDED;
 	}
 
-}
+}*/
 
 /*int ADS131_init_device(struct ADS_sensor *sensor)
 {
