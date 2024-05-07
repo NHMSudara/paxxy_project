@@ -183,9 +183,8 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 	{
 		if(YES==timer_ticked_ads)
 		{
-			fprintf(data_file,"%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n",ads1298->adc_buffer[ads1298->adc_ri].channel[0], ads1298->adc_buffer[ads1298->adc_ri].channel[1],
-					ads1298->adc_buffer[ads1298->adc_ri].channel[2], ads1298->adc_buffer[ads1298->adc_ri].channel[3], ads1298->adc_buffer[ads1298->adc_ri].channel[4],
-					ads1298->adc_buffer[ads1298->adc_ri].channel[5], ads1298->adc_buffer[ads1298->adc_ri].channel[6], ads1298->adc_buffer[ads1298->adc_ri].channel[7],
+			fprintf(data_file,"%d,%d,%d,%d,%d,%d,%d,%d\n",ads1298->adc_buffer[ads1298->adc_ri].channel[3], ads1298->adc_buffer[ads1298->adc_ri].channel[4],
+					ads1298->adc_buffer[ads1298->adc_ri].channel[5], ads1298->adc_buffer[ads1298->adc_ri].channel[7],
 					ads131->adc_buffer[ads131->adc_ri].channel[0], ads131->adc_buffer[ads131->adc_ri].channel[1], ads131->adc_buffer[ads131->adc_ri].channel[2],
 					ads131->adc_buffer[ads131->adc_ri].channel[3]);
 			fflush(data_file);
@@ -197,9 +196,9 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 				data._.as2 = ads131->adc_buffer[ads131->adc_ri].channel[1];
 				data._.as3 = ads131->adc_buffer[ads131->adc_ri].channel[2];
 				data._.as4 = ads131->adc_buffer[ads131->adc_ri].channel[3];
-				data._.la = ads1298->adc_buffer[ads1298->adc_ri].channel[3];
+				data._.ra = ads1298->adc_buffer[ads1298->adc_ri].channel[3];
 				data._.ll = ads1298->adc_buffer[ads1298->adc_ri].channel[4];
-				data._.ra = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
+				data._.la = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
 				data._.v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
 
 				write_tcp_thread_safe(data.uc, 36);
