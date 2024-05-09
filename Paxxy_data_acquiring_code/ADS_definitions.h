@@ -130,12 +130,13 @@
 
 #define ADS131_REGMAP_CRC 0x3E
 
-
+//adc data buffer
 struct adc_data
 {
 	int32_t channel[8];
 };
 
+//ADS sensor class 
 struct ADS_sensor
 {
 	mraa_gpio_context cs;
@@ -147,7 +148,6 @@ struct ADS_sensor
 	uint8_t initialized;
 	struct adc_data adc_buffer[2];
 	int adc_count;
-
 	int int_count;
 };
 
