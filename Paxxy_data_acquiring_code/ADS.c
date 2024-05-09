@@ -91,8 +91,8 @@ err_exit:
 
 void ads1298_int_handler(void* args)
 {
+	//ADS1298 interrupt handler
 	struct ADS_sensor *sensor = (struct ADS_sensor *)args;
-
 	if(NO==sensor->data_ready)
 	{
 		sensor->data_ready = YES;
@@ -112,11 +112,13 @@ int ADS1298_init_gpio(struct ADS_sensor *sensor, uint8_t id)
 	mraa_result_t status = MRAA_SUCCESS;
 	int i,j;
 
+	//initializing sensor struct values
     sensor->id = id;
     sensor->data_ready = NO;
     sensor->adc_ri = 0;
     sensor->initialized = NO;
 
+	//initializing sensor buffer and channels
     for(i=0;i<2;i++)
     {
     	for(j=0;j<8;j++)
@@ -214,6 +216,7 @@ uint8_t *ads1298_spi_write_buf(struct ADS_sensor *sensor, unsigned char *data, i
 
 static int ads1298_configure_register(struct ADS_sensor *sensor, unsigned char register_address, unsigned char register_value)
 {
+	//
 	uint8_t tx_buff[16] = {0};
 	uint8_t *rx_buff=NULL;
 	
