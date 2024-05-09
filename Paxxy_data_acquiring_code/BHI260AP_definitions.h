@@ -220,7 +220,7 @@
 #define BHI_ICTL_EDGE                           UINT8_C(0x40)
 #define BHI_ICTL_OPEN_DRAIN                     UINT8_C(0x80)
 
-
+//acceleration vector data
 struct vector_data
 {
 	int16_t x;
@@ -228,6 +228,7 @@ struct vector_data
 	int16_t z;
 };
 
+//orientation euler data
 struct euler_data
 {
 	int16_t heading;
@@ -235,6 +236,7 @@ struct euler_data
 	int16_t roll;
 };
 
+//BHI sensor class
 struct BHI_sensor
 {
 	mraa_gpio_context cs;
@@ -251,6 +253,7 @@ struct BHI_sensor
 	int euler_count;
 };
 
+//BHI interrupt status class
 union BHI_interrupt_status
 {
 	struct

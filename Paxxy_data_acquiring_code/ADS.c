@@ -93,20 +93,17 @@ void ads1298_int_handler(void* args)
 {
 	struct ADS_sensor *sensor = (struct ADS_sensor *)args;
 
-//	if(0 == mraa_gpio_read(sensor->drdy))
-//	{
-		if(NO==sensor->data_ready)
-		{
-			sensor->data_ready = YES;
-			wake();
-		}
-		else
-		{
-			if(YES==sensor->initialized)
-				printf("ADS1298 sample miss\n");
-		}
-		sensor->int_count++;
-//	}
+	if(NO==sensor->data_ready)
+	{
+		sensor->data_ready = YES;
+		wake();
+	}
+	else
+	{
+		if(YES==sensor->initialized)
+			printf("ADS1298 sample miss\n");
+	}
+	sensor->int_count++;
 
 }
 
