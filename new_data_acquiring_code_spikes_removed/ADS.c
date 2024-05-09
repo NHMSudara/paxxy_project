@@ -557,7 +557,7 @@ uint8_t *ads131_spi_write_buf(struct ADS_sensor *sensor, unsigned char *data, in
 	return rx;
 }
 
-static int ads131_configure_register(struct ADS_sensor *sensor, unsigned char register_address, unsigned short register_value)
+/*static int ads131_configure_register(struct ADS_sensor *sensor, unsigned char register_address, unsigned short register_value)
 {
 
 	uint8_t tx_buff[32] = {0};
@@ -612,9 +612,9 @@ static int ads131_configure_register(struct ADS_sensor *sensor, unsigned char re
 		return SUCCEEDED;
 	}
 
-}
+}*/
 
-int ADS131_init_device(struct ADS_sensor *sensor)
+/*int ADS131_init_device(struct ADS_sensor *sensor)
 {
 	uint8_t tx_buff[32] = {0};
 	uint8_t *rx_buff=NULL;
@@ -663,7 +663,7 @@ int ADS131_init_device(struct ADS_sensor *sensor)
 
 	sensor->initialized = YES;
 	return SUCCEEDED;
-}
+}*/
 
 
 
@@ -678,7 +678,7 @@ unsigned char *ADS131_read_data(struct ADS_sensor *sensor)
 }
 //mraa_result_t 	mraa_spi_transfer_buf (mraa_spi_context dev, uint8_t *data, uint8_t *rxbuf, int length)
 
-int ADS131_get_and_process_data(struct ADS_sensor *sensor)
+/*int ADS131_get_and_process_data(struct ADS_sensor *sensor)
 {
 	union int24_values temp;
 //	struct timeval now;
@@ -728,4 +728,4 @@ int ADS131_get_and_process_data(struct ADS_sensor *sensor)
 //		}
 //		buff_i++;
 //	}
-}
+}*/
