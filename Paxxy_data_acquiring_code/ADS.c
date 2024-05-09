@@ -196,6 +196,7 @@ err_exit:
     
 uint8_t ads1298_spi_write(struct ADS_sensor *sensor, unsigned char data)
 {
+	//Making CS pin low and writing the data
 	uint8_t rx;
 	mraa_gpio_write(sensor->cs, 0);
 	rx = mraa_spi_write(ads_spi, data);
@@ -206,6 +207,7 @@ uint8_t ads1298_spi_write(struct ADS_sensor *sensor, unsigned char data)
 
 uint8_t *ads1298_spi_write_buf(struct ADS_sensor *sensor, unsigned char *data, int len)
 {
+	//Making CS pin low and writing data to buffer
 	uint8_t *rx;
 	mraa_gpio_write(sensor->cs, 0);
 	rx = mraa_spi_write_buf(ads_spi, data, len);
@@ -216,17 +218,19 @@ uint8_t *ads1298_spi_write_buf(struct ADS_sensor *sensor, unsigned char *data, i
 
 static int ads1298_configure_register(struct ADS_sensor *sensor, unsigned char register_address, unsigned char register_value)
 {
-	//
+	//creating transmit buffer size - 1 byte x 16 = 16 bytes
 	uint8_t tx_buff[16] = {0};
 	uint8_t *rx_buff=NULL;
 	
-	tx_buff[0] = ADS1298_WREG | (register_address & 0x1F);		
+	//tx_buff = {opcode1 with register address, opcode2 (0), register value}
+	tx_buff[0] = ADS1298_WREG | (register_address & 0x1F);      		
 	tx_buff[1] = 0;						
 	tx_buff[2] = register_value;				
 	rx_buff = ads1298_spi_write_buf(sensor, tx_buff, 3);
 	
 	usleep(10);
 	
+	//tx_buff = {opcode1 with register address, opcode2 (0)}
 	tx_buff[0] = ADS1298_RREG | (register_address & 0x1F);		
 	tx_buff[1] = 0;						
 	tx_buff[2] = 0;			
@@ -246,6 +250,7 @@ static int ads1298_configure_register(struct ADS_sensor *sensor, unsigned char r
 
 static int ads1298_configure_multiple_registers(struct ADS_sensor *sensor, unsigned char register_address, unsigned char register_count, unsigned char register_value)
 {
+	//configuring the CHxSET register values
 	unsigned char tx_buff[16] = {0};
 	unsigned char *rx_buff=NULL;
 	int i;
@@ -379,7 +384,7 @@ unsigned char *ads1298_read_data(struct ADS_sensor *sensor)
 	unsigned char tx_buff[28] = {0};
 	unsigned char *rx_buff;
 	
-	rx_buff = ads1298_spi_write_buf(sensor, tx_buff,27);
+	rx_buff = ads1298_spi_write_buf(sensor, tx_buff, 27);
 		 
 	return rx_buff; 
 }
