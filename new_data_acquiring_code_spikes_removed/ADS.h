@@ -12,9 +12,9 @@
 	extern int ADS1298_get_and_process_data(struct ADS_sensor *sensor);
 	
 	extern int ADS131_init_gpio(struct ADS_sensor *sensor, uint8_t id);
-	extern int ADS131_init_device(struct ADS_sensor *sensor);
+	//extern int ADS131_init_device(struct ADS_sensor *sensor);
 
-	extern int ADS131_get_and_process_data(struct ADS_sensor *sensor);
+	//extern int ADS131_get_and_process_data(struct ADS_sensor *sensor);
 
 //	extern void ADS131_set_data_log_started(unsigned char state);
 //

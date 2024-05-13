@@ -443,7 +443,10 @@ int ADS1298_get_and_process_data(struct ADS_sensor *sensor)
 }
 
 
-void ads131_int_handler(void* args)
+/*******************************************************************************************************************************/
+
+
+/*void ads131_int_handler(void* args)
 {
 	struct ADS_sensor *sensor = (struct ADS_sensor *)args;
 
@@ -461,7 +464,7 @@ void ads131_int_handler(void* args)
 		}
 		sensor->int_count++;
 	}
-}
+}*/
 
 int ADS131_init_gpio(struct ADS_sensor *sensor, uint8_t id)
 {
@@ -494,7 +497,7 @@ int ADS131_init_gpio(struct ADS_sensor *sensor, uint8_t id)
         return FAILED;
     }
 
-    /* set GPIO to input/output */
+    // set GPIO to input/output 
     status = mraa_gpio_dir(sensor->cs, MRAA_GPIO_OUT);
     if (status != MRAA_SUCCESS)
     {
@@ -529,7 +532,7 @@ int ADS131_init_gpio(struct ADS_sensor *sensor, uint8_t id)
 		goto err_exit;
     }
 
-    /* configure ISR for GPIO */
+    // configure ISR for GPIO 
     status = mraa_gpio_isr(sensor->drdy, MRAA_GPIO_EDGE_FALLING, &ads131_int_handler, sensor);
     if (status != MRAA_SUCCESS)
     {
@@ -542,20 +545,20 @@ int ADS131_init_gpio(struct ADS_sensor *sensor, uint8_t id)
 err_exit:
 
     mraa_result_print(status);
-	/* deinitialize mraa for the platform (not needed most of the times) */
+	// deinitialize mraa for the platform (not needed most of the times)
 	mraa_deinit();
 	return FAILED;
 }
 
 
-uint8_t *ads131_spi_write_buf(struct ADS_sensor *sensor, unsigned char *data, int len)
+/*uint8_t *ads131_spi_write_buf(struct ADS_sensor *sensor, unsigned char *data, int len)
 {
 	uint8_t *rx;
 	mraa_gpio_write(sensor->cs, 0);
 	rx = mraa_spi_write_buf(ads_spi, data, len);
 	mraa_gpio_write(sensor->cs, 1);
 	return rx;
-}
+}*/
 
 /*static int ads131_configure_register(struct ADS_sensor *sensor, unsigned char register_address, unsigned short register_value)
 {
@@ -667,7 +670,7 @@ uint8_t *ads131_spi_write_buf(struct ADS_sensor *sensor, unsigned char *data, in
 
 
 
-unsigned char *ADS131_read_data(struct ADS_sensor *sensor)
+/*unsigned char *ADS131_read_data(struct ADS_sensor *sensor)
 {
 	unsigned char tx_buff[32] = {0};
 	unsigned char *rx_buff;
@@ -675,7 +678,8 @@ unsigned char *ADS131_read_data(struct ADS_sensor *sensor)
 	rx_buff = ads131_spi_write_buf(sensor, tx_buff,30);
 
 	return rx_buff;
-}
+}*/
+
 //mraa_result_t 	mraa_spi_transfer_buf (mraa_spi_context dev, uint8_t *data, uint8_t *rxbuf, int length)
 
 /*int ADS131_get_and_process_data(struct ADS_sensor *sensor)

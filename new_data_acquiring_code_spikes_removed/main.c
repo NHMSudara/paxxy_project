@@ -215,11 +215,12 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 			if(ads_tick_count>=500)
 			{
 				ads_tick_count = 0;
-				printf("ADS1298 %d - %d, ADS131 %d - %d\n", ads1298->int_count, ads1298->adc_count, ads131->int_count, ads131->adc_count);
+				//printf("ADS1298 %d - %d, ADS131 %d - %d\n", ads1298->int_count, ads1298->adc_count, ads131->int_count, ads131->adc_count);
+				printf("ADS1298 %d - %d\n", ads1298->int_count, ads1298->adc_count);
 				ads1298->adc_count = 0;
-				ads131->adc_count = 0;
+				//ads131->adc_count = 0;
 				ads1298->int_count = 0;
-				ads131->int_count = 0;
+				//ads131->int_count = 0;
 			}
 			timer_ticked_ads = NO;
 		}
