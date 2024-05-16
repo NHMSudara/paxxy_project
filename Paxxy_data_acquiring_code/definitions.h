@@ -9,7 +9,7 @@
 #define NO 0
 
 #define PROCESSING 2
-#define VS_CONFIGURED 2
+#define VS_CONFIGURED 3
 
 union int24_values
 {
