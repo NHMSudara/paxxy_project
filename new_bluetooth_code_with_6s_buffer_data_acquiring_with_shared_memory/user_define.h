@@ -14,10 +14,10 @@
 
 #define MAX_BHI_ACC_SENSOR_COUNT 4
 #define BHI_SENSOR1
-//#define BHI_SENSOR2
-//#define BHI_SENSOR3
-//#define BHI_SENSOR4
-//#define BHI_SENSOR5
+#define BHI_SENSOR2
+#define BHI_SENSOR3
+#define BHI_SENSOR4
+#define BHI_SENSOR5
 
 #define ECG_DATA_TYPE 8
 #define ACC_DATA_TYPE 256
