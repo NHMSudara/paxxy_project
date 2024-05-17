@@ -145,16 +145,18 @@ t = (1:1:N);    %time variable (X axis)
 
 
      figure;
-     subplot (2,2,1), plot (y1(500:N)), title('S1');
-     subplot (2,2,2), plot (y2(500:N)), title('S2');
-     subplot (2,2,3), plot (y3(500:N)), title('S3');
-     subplot (2,2,4), plot (y4(500:N)), title('S4');
+     subplot (2,2,1), plot (y1(500:N)), title('E1');
+     subplot (2,2,2), plot (y4(500:N)), title('E2');
+     subplot (2,2,3), plot (y3(500:N)), title('E3');
+     subplot (2,2,4), plot (y2(500:N)), title('E4');
+     
+  
 
      figure;
-     subplot (2,2,1), plot (S1(500:N)), title('S1');
-     subplot (2,2,2), plot (S2(500:N)), title('S2');
-     subplot (2,2,3), plot (S3(500:N)), title('S3');
-     subplot (2,2,4), plot (S4(500:N)), title('S4');
+     subplot (2,2,1), plot (S1(500:N)), title('E1');
+     subplot (2,2,2), plot (S4(500:N)), title('E2');
+     subplot (2,2,3), plot (S3(500:N)), title('E3');
+     subplot (2,2,4), plot (S2(500:N)), title('E4');
 
 %filtered data to csv
 %data1 = S1(500:N);
