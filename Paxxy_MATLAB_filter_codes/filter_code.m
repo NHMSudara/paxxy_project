@@ -10,10 +10,10 @@
 
 %_DATA AQUICISION
 %t=xlsread('test1_10.50AM.csv','A1:A100000'); %time column in ms
-y1=xlsread('ADS_Data_67.xlsx','A1:A200000'); % ra signal
-y2=xlsread('ADS_Data_67.xlsx','B1:B200000'); % ll signal
-y3=xlsread('ADS_Data_67.xlsx','C1:C200000'); % la signal
-y4=xlsread('ADS_Data_67.xlsx','D1:D200000'); % v1 signal
+y1=xlsread('ADS_Data_67.xlsx','A1:A200000'); % E1 signal
+y2=xlsread('ADS_Data_67.xlsx','B1:B200000'); % E4 signal
+y3=xlsread('ADS_Data_67.xlsx','C1:C200000'); % E3 signal
+y4=xlsread('ADS_Data_67.xlsx','D1:D200000'); % E2 signal
 
 t = (1:1:N);    %time variable (X axis)
 %Define four variables from pre-copied data
