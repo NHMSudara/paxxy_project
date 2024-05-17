@@ -107,15 +107,18 @@ M24 = (M24 - M24_mean) / M24_std;
 
 
 figure;
-subplot(4, 2, 1); plot(M11) ; title('RA'); %xlim([2 100]); ylim([0 0.000001]); grid on;
-subplot(4, 2, 3); plot(M12) ; title('LL'); %xlim([2 100]); ylim([0 0.000001]); grid on;
-subplot(4, 2, 5); plot(M13) ; title('LA'); %xlim([2 100]); ylim([0 0.000001]); grid on;
-subplot(4, 2, 7); plot(M14) ; title('V1'); %xlim([2 100]); ylim([0 0.000001]); grid on;
+subplot(4, 2, 1); plot(M11) ; title('E1'); %xlim([2 100]); ylim([0 0.000001]); grid on;
+subplot(4, 2, 7); plot(M14) ; title('E2'); %xlim([2 100]); ylim([0 0.000001]); grid on;
+subplot(4, 2, 5); plot(M13) ; title('E3'); %xlim([2 100]); ylim([0 0.000001]); grid on;
+subplot(4, 2, 3); plot(M12) ; title('E4'); %xlim([2 100]); ylim([0 0.000001]); grid on;
 
-subplot(4, 2, 2); plot(M21) ; title('RA'); %xlim([2 100]); ylim([0 1500]); grid on;
-subplot(4, 2, 4); plot(M22) ; title('LL'); %xlim([2 100]); ylim([0 1500]); grid on;
-subplot(4, 2, 6); plot(M23) ; title('LA'); %xlim([2 100]); ylim([0 1500]); grid on;
-subplot(4, 2, 8); plot(M24) ; title('V1'); %xlim([2 100]); ylim([0 1500]); grid on;
+
+subplot(4, 2, 2); plot(M21) ; title('E1'); %xlim([2 100]); ylim([0 1500]); grid on;
+subplot(4, 2, 8); plot(M24) ; title('E2'); %xlim([2 100]); ylim([0 1500]); grid on;
+subplot(4, 2, 6); plot(M23) ; title('E3'); %xlim([2 100]); ylim([0 1500]); grid on;
+subplot(4, 2, 4); plot(M22) ; title('E4'); %xlim([2 100]); ylim([0 1500]); grid on;
+
+
 
 
 % Sample Rate and Data Length
@@ -181,14 +184,16 @@ Y_max = 1.5;
 X_min = 0;
 Y_min = 0;
 figure;
-subplot(4, 2, 1); h1=stem(f1, P1_11) ; title('RA'); set(h1, 'Marker', 'none'); xlim([X_min X_max]); ylim([Y_min Y_max]); grid on;
-subplot(4, 2, 3); h2=stem(f1, P1_12) ; title('LL'); set(h2, 'Marker', 'none'); xlim([X_min X_max]); ylim([Y_min Y_max]); grid on;
-subplot(4, 2, 5); h3=stem(f1, P1_13) ; title('LA'); set(h3, 'Marker', 'none'); xlim([X_min X_max]); ylim([Y_min Y_max]); grid on;
-subplot(4, 2, 7); h4=stem(f1, P1_14) ; title('V1'); set(h4, 'Marker', 'none'); xlim([X_min X_max]); ylim([Y_min Y_max]); grid on;
-subplot(4, 2, 2); h5=stem(f2, P1_21) ; title('RA'); set(h5, 'Marker', 'none'); xlim([X_min X_max]); ylim([Y_min Y_max]); grid on;
-subplot(4, 2, 4); h6=stem(f2, P1_22) ; title('LL'); set(h6, 'Marker', 'none'); xlim([X_min X_max]); ylim([Y_min Y_max]); grid on;
-subplot(4, 2, 6); h7=stem(f2, P1_23) ; title('LA'); set(h7, 'Marker', 'none'); xlim([X_min X_max]); ylim([Y_min Y_max]); grid on;
-subplot(4, 2, 8); h8=stem(f2, P1_24) ; title('V1'); set(h8, 'Marker', 'none'); xlim([X_min X_max]); ylim([Y_min Y_max]); grid on;
+subplot(4, 2, 1); h1=stem(f1, P1_11) ; title('E1'); set(h1, 'Marker', 'none'); xlim([X_min X_max]); ylim([Y_min Y_max]); grid on;
+subplot(4, 2, 7); h4=stem(f1, P1_14) ; title('E2'); set(h4, 'Marker', 'none'); xlim([X_min X_max]); ylim([Y_min Y_max]); grid on;
+subplot(4, 2, 5); h3=stem(f1, P1_13) ; title('E3'); set(h3, 'Marker', 'none'); xlim([X_min X_max]); ylim([Y_min Y_max]); grid on;
+subplot(4, 2, 3); h2=stem(f1, P1_12) ; title('E4'); set(h2, 'Marker', 'none'); xlim([X_min X_max]); ylim([Y_min Y_max]); grid on;
+subplot(4, 2, 2); h5=stem(f2, P1_21) ; title('E1'); set(h5, 'Marker', 'none'); xlim([X_min X_max]); ylim([Y_min Y_max]); grid on;
+subplot(4, 2, 8); h8=stem(f2, P1_24) ; title('E2'); set(h8, 'Marker', 'none'); xlim([X_min X_max]); ylim([Y_min Y_max]); grid on;
+subplot(4, 2, 6); h7=stem(f2, P1_23) ; title('E3'); set(h7, 'Marker', 'none'); xlim([X_min X_max]); ylim([Y_min Y_max]); grid on;
+subplot(4, 2, 4); h6=stem(f2, P1_22) ; title('E4'); set(h6, 'Marker', 'none'); xlim([X_min X_max]); ylim([Y_min Y_max]); grid on;
+
+
 %title('Single-Sided Amplitude Spectrum of ECG')
 %xlabel('Frequency (Hz)')
 %ylabel('|P1(f)|')
