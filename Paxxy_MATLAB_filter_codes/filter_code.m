@@ -10,10 +10,10 @@
 
 %_DATA AQUICISION
 %t=xlsread('test1_10.50AM.csv','A1:A100000'); %time column in ms
-y1=xlsread('ADS_Data_67.xlsx','A1:A200000'); % ra signal
-y2=xlsread('ADS_Data_67.xlsx','B1:B200000'); % ll signal
-y3=xlsread('ADS_Data_67.xlsx','C1:C200000'); % la signal
-y4=xlsread('ADS_Data_67.xlsx','D1:D200000'); % v1 signal
+y1=xlsread('ADS_Data_67.xlsx','A1:A200000'); % E1 signal
+y2=xlsread('ADS_Data_67.xlsx','B1:B200000'); % E4 signal
+y3=xlsread('ADS_Data_67.xlsx','C1:C200000'); % E3 signal
+y4=xlsread('ADS_Data_67.xlsx','D1:D200000'); % E2 signal
 
 t = (1:1:N);    %time variable (X axis)
 %Define four variables from pre-copied data
@@ -145,16 +145,18 @@ t = (1:1:N);    %time variable (X axis)
 
 
      figure;
-     subplot (2,2,1), plot (y1(500:N)), title('S1');
-     subplot (2,2,2), plot (y2(500:N)), title('S2');
-     subplot (2,2,3), plot (y3(500:N)), title('S3');
-     subplot (2,2,4), plot (y4(500:N)), title('S4');
+     subplot (2,2,1), plot (y1(500:N)), title('E1');
+     subplot (2,2,2), plot (y4(500:N)), title('E2');
+     subplot (2,2,3), plot (y3(500:N)), title('E3');
+     subplot (2,2,4), plot (y2(500:N)), title('E4');
+     
+  
 
      figure;
-     subplot (2,2,1), plot (S1(500:N)), title('S1');
-     subplot (2,2,2), plot (S2(500:N)), title('S2');
-     subplot (2,2,3), plot (S3(500:N)), title('S3');
-     subplot (2,2,4), plot (S4(500:N)), title('S4');
+     subplot (2,2,1), plot (S1(500:N)), title('E1');
+     subplot (2,2,2), plot (S4(500:N)), title('E2');
+     subplot (2,2,3), plot (S3(500:N)), title('E3');
+     subplot (2,2,4), plot (S2(500:N)), title('E4');
 
 %filtered data to csv
 %data1 = S1(500:N);
