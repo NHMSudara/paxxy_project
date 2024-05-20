@@ -127,6 +127,20 @@ struct shared_memory_data
 	}buffer[2];
 };
 
+typedef union 
+{
+	sm_buffer->buffer[0];
+	unsigned char uc[62408];	// 4 * (2 + 4*3000 + 3*4*300)
+}uc_0;
+
+typedef union 
+{
+	sm_buffer->buffer[1];
+	unsigned char uc[62408];	// 4 * (2 + 4*3000 + 3*4*300)
+}uc_1;
+
+
+
 //struct ecg_data ecg_data_buffer[2][ECG_DATA_BUFFER_LEN] = {0};
 //
 //struct acc_data acc_data_buffer[2][MAX_BHI_ACC_SENSOR_COUNT][ACC_DATA_BUFFER_LEN] = {0};
@@ -184,6 +198,23 @@ void timer_callback(int signum)
 		bhi_tick_count++;
 	}
 	sw_count++;					//Switch debouncing count
+}
+
+void send_data()
+{
+	if((ecg_batch_i > 1) && (acc_batch_i > 1))
+	{
+		if((acc_buffer_i == 0) && (ecg_buffer_i == 0) && (acc_data_i == 4))
+		{
+			write_tcp_thread_safe(uc_1.uc, 62408);
+			printf("buffer1 data transmitted successfully!\n");
+		}
+		else if((acc_buffer_i == 1) && (ecg_buffer_i == 1) && (acc_data_i == 4))
+		{
+			write_tcp_thread_safe(uc_0.uc, 62408);
+			printf("buffer0 data transmitted successfully!\n");
+		}
+	}
 }
 
 #ifdef BHI260AP
@@ -298,6 +329,7 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 				if(acc_data_i>=ACC_DATA_BUFFER_LEN)
 				{
 					//send BHI data
+					send_data();
 					printf("ACC batch - %d\n", acc_batch_i);
 					sm_buffer->buffer[acc_buffer_i].acc_data_batch = acc_batch_i++;
 					acc_buffer_i++;
@@ -347,7 +379,7 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 //	HeaderDataObject header;
 //	ECGDataObject data;
 	int i;
-
+	
 	if(YES==data_log_started)
 	{
 		if(YES==timer_ticked_ads)
@@ -376,8 +408,8 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 				if(ecg_data_i>=ECG_DATA_BUFFER_LEN)
 				{
 					//send ECG data
+					send_data();
 					printf("ECG batch - %d\n", ecg_batch_i);
-
 					sm_buffer->buffer[ecg_buffer_i].ecg_data_batch = ecg_batch_i++;
 					ecg_buffer_i++;
 					if(ecg_buffer_i>1)
