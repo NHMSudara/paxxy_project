@@ -245,10 +245,10 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 				if(YES==is_tcp_client_connected())
 				{
 					data._.id = tx_i++;
-					data._.as1 = ads131->adc_buffer[ads131->adc_ri].channel[0];
-					data._.as2 = ads131->adc_buffer[ads131->adc_ri].channel[1];
-					data._.as3 = ads131->adc_buffer[ads131->adc_ri].channel[2];
-					data._.as4 = ads131->adc_buffer[ads131->adc_ri].channel[3];
+					data._.as1 = ads1298->adc_buffer[ads1298->adc_ri].channel[3];
+					data._.as2 = ads1298->adc_buffer[ads1298->adc_ri].channel[4];
+					data._.as3 = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
+					data._.as4 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
 
 					write_tcp_thread_safe(data.uc, 36);
 				}
