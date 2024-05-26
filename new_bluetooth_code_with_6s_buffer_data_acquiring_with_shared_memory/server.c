@@ -31,7 +31,7 @@
 #define USER_TCP_KEEPIDLE 20
 #define USER_TCP_KEEPINTVL 5
 
-#define MAX_TCP_PACKET_SIZE 64
+#define MAX_TCP_PACKET_SIZE 14050
 
 /* Exclusive tcp parameter access control mutex variable */
 
