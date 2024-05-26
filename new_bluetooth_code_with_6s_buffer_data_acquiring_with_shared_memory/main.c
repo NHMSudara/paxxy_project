@@ -110,7 +110,7 @@ struct shared_memory_data
 		// unsigned int ecg_data_batch;
 		// unsigned int acc_data_batch;
 
-		typedef union 
+		union 
 		{
 			unsigned int ecg_data_batch;
 			struct
@@ -123,7 +123,7 @@ struct shared_memory_data
 			unsigned char ecg_uc[48004];
 		}ecg_;
 		
-		typedef union 
+		union 
 		{
 			unsigned int acc_data_batch;
 			struct
@@ -507,10 +507,10 @@ int main(int argc, char **argv)
 	if(SUCCEEDED == sm_status)
 	{
 		sm_buffer = (struct shared_memory_data *)shared_memory_get_addr();
-		sm_buffer->buffer[0].acc_data_batch = 0;
-		sm_buffer->buffer[0].ecg_data_batch = 0;
-		sm_buffer->buffer[1].acc_data_batch = 0;
-		sm_buffer->buffer[1].ecg_data_batch = 0;
+		sm_buffer->buffer[0].acc_.acc_data_batch = 0;
+		sm_buffer->buffer[0].ecg_.ecg_data_batch = 0;
+		sm_buffer->buffer[1].acc_.acc_data_batch = 0;
+		sm_buffer->buffer[1].ecg_.ecg_data_batch = 0;
 	}
 
 	/* initialize mraa for the platform (not needed most of the times) */
