@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <string.h>
 
 #include <stdio.h>
 #include <time.h>
@@ -41,7 +42,7 @@
 #include "user_define.h"
 
 #include "BHI260AP.h"
-//#include "server.h"
+#include "server.h"
 #include "shared_memory.h"
 
 #define FILE_NAME_LENGTH 40
@@ -106,39 +107,56 @@ struct shared_memory_data
 {
 	struct
 	{
-		unsigned int ecg_data_batch;
-		unsigned int acc_data_batch;
-		struct
+		// unsigned int ecg_data_batch;
+		// unsigned int acc_data_batch;
+
+		typedef union 
 		{
-			int ra;
-			int ll;
-			int la;
-			int v1;
-		}ecg_data[ECG_DATA_BUFFER_LEN];
-		struct
-		{
+			unsigned int ecg_data_batch;
 			struct
 			{
-				int x;
-				int y;
-				int z;
-			}sensor[4];
-		}acc_data[ACC_DATA_BUFFER_LEN];
+				int ra;
+				int ll;
+				int la;
+				int v1;
+			}ecg_data[ECG_DATA_BUFFER_LEN];
+			unsigned char ecg_uc[48004];
+		}ecg_;
+		
+		typedef union 
+		{
+			unsigned int acc_data_batch;
+			struct
+			{
+				struct
+				{
+					int x;
+					int y;
+					int z;
+				}sensor[4];
+			}acc_data[ACC_DATA_BUFFER_LEN];
+			unsigned char acc_uc[14404];
+		}acc_;
+
+		// struct
+		// {
+		// 	int ra;
+		// 	int ll;
+		// 	int la;
+		// 	int v1;
+		// }ecg_data[ECG_DATA_BUFFER_LEN];
+		// struct
+		// {
+		// 	struct
+		// 	{
+		// 		int x;
+		// 		int y;
+		// 		int z;
+		// 	}sensor[4];
+		// }acc_data[ACC_DATA_BUFFER_LEN];
+
 	}buffer[2];
 };
-
-typedef union 
-{
-	sm_buffer->buffer[0];
-	unsigned char uc[62408];	// 4 * (2 + 4*3000 + 3*4*300)
-}uc_0;
-
-typedef union 
-{
-	sm_buffer->buffer[1];
-	unsigned char uc[62408];	// 4 * (2 + 4*3000 + 3*4*300)
-}uc_1;
-
 
 
 //struct ecg_data ecg_data_buffer[2][ECG_DATA_BUFFER_LEN] = {0};
@@ -200,23 +218,6 @@ void timer_callback(int signum)
 	sw_count++;					//Switch debouncing count
 }
 
-void send_data()
-{
-	if((ecg_batch_i > 1) && (acc_batch_i > 1))
-	{
-		if((acc_buffer_i == 0) && (ecg_buffer_i == 0) && (acc_data_i == 4))
-		{
-			write_tcp_thread_safe(uc_1.uc, 62408);
-			printf("buffer1 data transmitted successfully!\n");
-		}
-		else if((acc_buffer_i == 1) && (ecg_buffer_i == 1) && (acc_data_i == 4))
-		{
-			write_tcp_thread_safe(uc_0.uc, 62408);
-			printf("buffer0 data transmitted successfully!\n");
-		}
-	}
-}
-
 #ifdef BHI260AP
 void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor *sensor2, struct BHI_sensor *sensor3,
 						struct BHI_sensor *sensor4, struct BHI_sensor *sensor5)
@@ -234,9 +235,9 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 								sensor1->vector_buffer[sensor1->vector_ri].z);
 			if(SUCCEEDED == sm_status)
 			{
-				sm_buffer->buffer[acc_buffer_i].acc_data[acc_data_i].sensor[0].x =sensor1->vector_buffer[sensor1->vector_ri].x;
-				sm_buffer->buffer[acc_buffer_i].acc_data[acc_data_i].sensor[0].y =sensor1->vector_buffer[sensor1->vector_ri].y;
-				sm_buffer->buffer[acc_buffer_i].acc_data[acc_data_i].sensor[0].z =sensor1->vector_buffer[sensor1->vector_ri].z;
+				sm_buffer->buffer[acc_buffer_i].acc_.acc_data[acc_data_i].sensor[0].x =sensor1->vector_buffer[sensor1->vector_ri].x;
+				sm_buffer->buffer[acc_buffer_i].acc_.acc_data[acc_data_i].sensor[0].y =sensor1->vector_buffer[sensor1->vector_ri].y;
+				sm_buffer->buffer[acc_buffer_i].acc_.acc_data[acc_data_i].sensor[0].z =sensor1->vector_buffer[sensor1->vector_ri].z;
 			}
 
 //			acc_data_buffer[acc_wr_i][0][acc_data_i].x = sensor1->vector_buffer[sensor1->vector_ri].x;
@@ -248,9 +249,9 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 								sensor2->vector_buffer[sensor2->vector_ri].z);
 			if(SUCCEEDED == sm_status)
 			{
-				sm_buffer->buffer[acc_buffer_i].acc_data[acc_data_i].sensor[1].x =sensor1->vector_buffer[sensor2->vector_ri].x;
-				sm_buffer->buffer[acc_buffer_i].acc_data[acc_data_i].sensor[1].y =sensor1->vector_buffer[sensor2->vector_ri].y;
-				sm_buffer->buffer[acc_buffer_i].acc_data[acc_data_i].sensor[1].z =sensor1->vector_buffer[sensor2->vector_ri].z;
+				sm_buffer->buffer[acc_buffer_i].acc_.acc_data[acc_data_i].sensor[1].x =sensor1->vector_buffer[sensor2->vector_ri].x;
+				sm_buffer->buffer[acc_buffer_i].acc_.acc_data[acc_data_i].sensor[1].y =sensor1->vector_buffer[sensor2->vector_ri].y;
+				sm_buffer->buffer[acc_buffer_i].acc_.acc_data[acc_data_i].sensor[1].z =sensor1->vector_buffer[sensor2->vector_ri].z;
 			}
 //			acc_data_buffer[acc_wr_i][1][acc_data_i].x = sensor2->vector_buffer[sensor2->vector_ri].x;
 //			acc_data_buffer[acc_wr_i][1][acc_data_i].y = sensor2->vector_buffer[sensor2->vector_ri].y;
@@ -262,9 +263,9 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 								sensor3->vector_buffer[sensor3->vector_ri].z);
 			if(SUCCEEDED == sm_status)
 			{
-				sm_buffer->buffer[acc_buffer_i].acc_data[acc_data_i].sensor[2].x =sensor1->vector_buffer[sensor3->vector_ri].x;
-				sm_buffer->buffer[acc_buffer_i].acc_data[acc_data_i].sensor[2].y =sensor1->vector_buffer[sensor3->vector_ri].y;
-				sm_buffer->buffer[acc_buffer_i].acc_data[acc_data_i].sensor[2].z =sensor1->vector_buffer[sensor3->vector_ri].z;
+				sm_buffer->buffer[acc_buffer_i].acc_.acc_data[acc_data_i].sensor[2].x =sensor1->vector_buffer[sensor3->vector_ri].x;
+				sm_buffer->buffer[acc_buffer_i].acc_.acc_data[acc_data_i].sensor[2].y =sensor1->vector_buffer[sensor3->vector_ri].y;
+				sm_buffer->buffer[acc_buffer_i].acc_.acc_data[acc_data_i].sensor[2].z =sensor1->vector_buffer[sensor3->vector_ri].z;
 			}
 //			acc_data_buffer[acc_wr_i][2][acc_data_i].x = sensor3->vector_buffer[sensor3->vector_ri].x;
 //			acc_data_buffer[acc_wr_i][2][acc_data_i].y = sensor3->vector_buffer[sensor3->vector_ri].y;
@@ -276,9 +277,9 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 								sensor4->euler_buffer[sensor4->euler_ri].roll);
 			if(SUCCEEDED == sm_status)
 			{
-				sm_buffer->buffer[acc_buffer_i].acc_data[acc_data_i].sensor[3].x =sensor1->vector_buffer[sensor4->vector_ri].x;
-				sm_buffer->buffer[acc_buffer_i].acc_data[acc_data_i].sensor[3].y =sensor1->vector_buffer[sensor4->vector_ri].y;
-				sm_buffer->buffer[acc_buffer_i].acc_data[acc_data_i].sensor[3].z =sensor1->vector_buffer[sensor4->vector_ri].z;
+				sm_buffer->buffer[acc_buffer_i].acc_.acc_data[acc_data_i].sensor[3].x =sensor1->vector_buffer[sensor4->vector_ri].x;
+				sm_buffer->buffer[acc_buffer_i].acc_.acc_data[acc_data_i].sensor[3].y =sensor1->vector_buffer[sensor4->vector_ri].y;
+				sm_buffer->buffer[acc_buffer_i].acc_.acc_data[acc_data_i].sensor[3].z =sensor1->vector_buffer[sensor4->vector_ri].z;
 			}
 //			acc_data_buffer[acc_wr_i][3][acc_data_i].x = sensor4->vector_buffer[sensor4->vector_ri].x;
 //			acc_data_buffer[acc_wr_i][3][acc_data_i].y = sensor4->vector_buffer[sensor4->vector_ri].y;
@@ -329,9 +330,10 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 				if(acc_data_i>=ACC_DATA_BUFFER_LEN)
 				{
 					//send BHI data
-					send_data();
+					write_tcp_thread_safe(sm_buffer->buffer[acc_buffer_i].acc_.acc_uc, 14404);
 					printf("ACC batch - %d\n", acc_batch_i);
-					sm_buffer->buffer[acc_buffer_i].acc_data_batch = acc_batch_i++;
+					printf("Data transmitted successfully!\n");
+					sm_buffer->buffer[acc_buffer_i].acc_.acc_data_batch = acc_batch_i++;
 					acc_buffer_i++;
 					if(acc_buffer_i>1)
 					{
@@ -379,7 +381,7 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 //	HeaderDataObject header;
 //	ECGDataObject data;
 	int i;
-	
+
 	if(YES==data_log_started)
 	{
 		if(YES==timer_ticked_ads)
@@ -398,19 +400,19 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 
 			if(SUCCEEDED == sm_status)
 			{
-				sm_buffer->buffer[ecg_buffer_i].ecg_data[ecg_data_i].la = ads1298->adc_buffer[ads1298->adc_ri].channel[3];
-				sm_buffer->buffer[ecg_buffer_i].ecg_data[ecg_data_i].ll = ads1298->adc_buffer[ads1298->adc_ri].channel[4];
-				sm_buffer->buffer[ecg_buffer_i].ecg_data[ecg_data_i].ra = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
-				sm_buffer->buffer[ecg_buffer_i].ecg_data[ecg_data_i].v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
+				sm_buffer->buffer[ecg_buffer_i].ecg_.ecg_data[ecg_data_i].la = ads1298->adc_buffer[ads1298->adc_ri].channel[3];
+				sm_buffer->buffer[ecg_buffer_i].ecg_.ecg_data[ecg_data_i].ll = ads1298->adc_buffer[ads1298->adc_ri].channel[4];
+				sm_buffer->buffer[ecg_buffer_i].ecg_.ecg_data[ecg_data_i].ra = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
+				sm_buffer->buffer[ecg_buffer_i].ecg_.ecg_data[ecg_data_i].v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
 
 				ecg_data_i++;
 
 				if(ecg_data_i>=ECG_DATA_BUFFER_LEN)
 				{
-					//send ECG data
-					send_data();
+					write_tcp_thread_safe(sm_buffer->buffer[ecg_buffer_i].ecg_.ecg_uc, 48004);
 					printf("ECG batch - %d\n", ecg_batch_i);
-					sm_buffer->buffer[ecg_buffer_i].ecg_data_batch = ecg_batch_i++;
+					printf("Data transmitted successfully!\n");
+					sm_buffer->buffer[ecg_buffer_i].ecg_.ecg_data_batch = ecg_batch_i++;
 					ecg_buffer_i++;
 					if(ecg_buffer_i>1)
 					{
