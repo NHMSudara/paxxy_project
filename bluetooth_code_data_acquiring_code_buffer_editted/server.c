@@ -31,7 +31,7 @@
 #define USER_TCP_KEEPIDLE 20
 #define USER_TCP_KEEPINTVL 5
 
-#define MAX_TCP_PACKET_SIZE 64
+#define MAX_TCP_PACKET_SIZE 60001
 
 /* Exclusive tcp parameter access control mutex variable */
 
@@ -188,7 +188,7 @@ void close_server_sockets(void)
 	is_connected = NO;
 }
 
-int write_tcp_thread_safe(unsigned char *tx_buff, short len)
+int write_tcp_thread_safe(unsigned char *tx_buff, int len)
 {
     /* write_tcp_thread_safe function - sends data to TCP connection
      * parameters - tx_buff - pointer to transmit data buffer

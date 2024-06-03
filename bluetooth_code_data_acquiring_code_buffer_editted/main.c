@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #include <stdio.h>
 #include <time.h>
@@ -77,11 +78,11 @@ typedef union
 
 typedef union
 {
-	struct BHI_Data sensor_1; 
-	struct BHI_Data sensor_2; 
-	struct BHI_Data sensor_3; 
-	struct BHI_Data sensor_4; 
-	struct BHI_Data sensor_5; 
+	BHI_Data sensor_1; 
+	BHI_Data sensor_2; 
+	BHI_Data sensor_3; 
+	BHI_Data sensor_4; 
+	BHI_Data sensor_5; 
 }Sensors;
 
 typedef union 
@@ -96,6 +97,8 @@ int S3_count = 0;
 int S4_count = 0;
 int S5_count = 0;
 
+unsigned char ind_ECG[1] = {'E'};
+unsigned char ind_ACC[1] = {'A'};
 /*-------------------------------------------------*/
 
 
@@ -164,11 +167,14 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 			fprintf(data_file,"%d,%d,%d,", sensor1->vector_buffer[sensor1->vector_ri].x, sensor1->vector_buffer[sensor1->vector_ri].y,
 								sensor1->vector_buffer[sensor1->vector_ri].z);
 
-				bhiData.BHI_data_Buffer[S1_count].sensor_1.id     = S1_count;
-				bhiData.BHI_data_Buffer[S1_count].sensor_1.imuNum = 1;
-				bhiData.BHI_data_Buffer[S1_count].sensor_1.x 	  = sensor1->vector_buffer[sensor1->vector_ri].x;
-				bhiData.BHI_data_Buffer[S1_count].sensor_1.y      = sensor1->vector_buffer[sensor1->vector_ri].y;
-				bhiData.BHI_data_Buffer[S1_count].sensor_1.z      = sensor1->vector_buffer[sensor1->vector_ri].z;
+				if(S1_count <= 300)
+				{
+					bhiData.BHI_data_Buffer[S1_count].sensor_1.id     = S1_count;
+					bhiData.BHI_data_Buffer[S1_count].sensor_1.imuNum = 1;
+					bhiData.BHI_data_Buffer[S1_count].sensor_1.x 	  = sensor1->vector_buffer[sensor1->vector_ri].x;
+					bhiData.BHI_data_Buffer[S1_count].sensor_1.y      = sensor1->vector_buffer[sensor1->vector_ri].y;
+					bhiData.BHI_data_Buffer[S1_count].sensor_1.z      = sensor1->vector_buffer[sensor1->vector_ri].z;
+				}
 				S1_count++;
 
 #endif
@@ -176,11 +182,14 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 			fprintf(data_file,"%d,%d,%d,", sensor2->vector_buffer[sensor2->vector_ri].x, sensor2->vector_buffer[sensor2->vector_ri].y,
 								sensor2->vector_buffer[sensor2->vector_ri].z);
 
-				bhiData.BHI_data_Buffer[S2_count].sensor_2.id     = S2_count;
-				bhiData.BHI_data_Buffer[S2_count].sensor_2.imuNum = 2;
-				bhiData.BHI_data_Buffer[S2_count].sensor_2.x 	  = sensor2->vector_buffer[sensor2->vector_ri].x;
-				bhiData.BHI_data_Buffer[S2_count].sensor_2.y      = sensor2->vector_buffer[sensor2->vector_ri].y;
-				bhiData.BHI_data_Buffer[S2_count].sensor_2.z      = sensor2->vector_buffer[sensor2->vector_ri].z;
+				if(S2_count <= 300)
+				{
+					bhiData.BHI_data_Buffer[S2_count].sensor_2.id     = S2_count;
+					bhiData.BHI_data_Buffer[S2_count].sensor_2.imuNum = 2;
+					bhiData.BHI_data_Buffer[S2_count].sensor_2.x 	  = sensor2->vector_buffer[sensor2->vector_ri].x;
+					bhiData.BHI_data_Buffer[S2_count].sensor_2.y      = sensor2->vector_buffer[sensor2->vector_ri].y;
+					bhiData.BHI_data_Buffer[S2_count].sensor_2.z      = sensor2->vector_buffer[sensor2->vector_ri].z;
+				}
 				S2_count++;
 
 #endif
@@ -188,11 +197,14 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 			fprintf(data_file,"%d,%d,%d,", sensor3->vector_buffer[sensor3->vector_ri].x, sensor3->vector_buffer[sensor3->vector_ri].y,
 								sensor3->vector_buffer[sensor3->vector_ri].z);
 
-				bhiData.BHI_data_Buffer[S3_count].sensor_3.id     = S3_count;
-				bhiData.BHI_data_Buffer[S3_count].sensor_3.imuNum = 3;
-				bhiData.BHI_data_Buffer[S3_count].sensor_3.x 	  = sensor3->vector_buffer[sensor3->vector_ri].x;
-				bhiData.BHI_data_Buffer[S3_count].sensor_3.y      = sensor3->vector_buffer[sensor3->vector_ri].y;
-				bhiData.BHI_data_Buffer[S3_count].sensor_3.z      = sensor3->vector_buffer[sensor3->vector_ri].z;
+				if(S3_count <= 300)
+				{
+					bhiData.BHI_data_Buffer[S3_count].sensor_3.id     = S3_count;
+					bhiData.BHI_data_Buffer[S3_count].sensor_3.imuNum = 3;
+					bhiData.BHI_data_Buffer[S3_count].sensor_3.x 	  = sensor3->vector_buffer[sensor3->vector_ri].x;
+					bhiData.BHI_data_Buffer[S3_count].sensor_3.y      = sensor3->vector_buffer[sensor3->vector_ri].y;
+					bhiData.BHI_data_Buffer[S3_count].sensor_3.z      = sensor3->vector_buffer[sensor3->vector_ri].z;
+				}
 				S3_count++;
 
 #endif
@@ -203,11 +215,14 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 			fprintf(data_file,"%d,%d,%d,", sensor4->vector_buffer[sensor4->vector_ri].x, sensor4->vector_buffer[sensor4->vector_ri].y,
 								sensor4->vector_buffer[sensor4->vector_ri].z);
 
-				bhiData.BHI_data_Buffer[S4_count].sensor_4.id     = S4_count;
-				bhiData.BHI_data_Buffer[S4_count].sensor_4.imuNum = 4;
-				bhiData.BHI_data_Buffer[S4_count].sensor_4.x 	  = sensor4->vector_buffer[sensor4->vector_ri].x;
-				bhiData.BHI_data_Buffer[S4_count].sensor_4.y      = sensor4->vector_buffer[sensor4->vector_ri].y;
-				bhiData.BHI_data_Buffer[S4_count].sensor_4.z      = sensor4->vector_buffer[sensor4->vector_ri].z;
+				if(S4_count <= 300)
+				{
+					bhiData.BHI_data_Buffer[S4_count].sensor_4.id     = S4_count;
+					bhiData.BHI_data_Buffer[S4_count].sensor_4.imuNum = 4;
+					bhiData.BHI_data_Buffer[S4_count].sensor_4.x 	  = sensor4->vector_buffer[sensor4->vector_ri].x;
+					bhiData.BHI_data_Buffer[S4_count].sensor_4.y      = sensor4->vector_buffer[sensor4->vector_ri].y;
+					bhiData.BHI_data_Buffer[S4_count].sensor_4.z      = sensor4->vector_buffer[sensor4->vector_ri].z;
+				}
 				S4_count++;
 
 #endif
@@ -215,11 +230,14 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 			fprintf(data_file,"%d,%d,%d,", sensor5->vector_buffer[sensor5->vector_ri].x, sensor5->vector_buffer[sensor5->vector_ri].y,
 								sensor5->vector_buffer[sensor5->vector_ri].z);
 
-				bhiData.BHI_data_Buffer[S5_count].sensor_5.id     = S5_count;
-				bhiData.BHI_data_Buffer[S5_count].sensor_5.imuNum = 5;
-				bhiData.BHI_data_Buffer[S5_count].sensor_5.x 	  = sensor5->vector_buffer[sensor5->vector_ri].x;
-				bhiData.BHI_data_Buffer[S5_count].sensor_5.y      = sensor5->vector_buffer[sensor5->vector_ri].y;
-				bhiData.BHI_data_Buffer[S5_count].sensor_5.z      = sensor5->vector_buffer[sensor5->vector_ri].z;
+				if(S5_count <= 300)
+				{
+					bhiData.BHI_data_Buffer[S5_count].sensor_5.id     = S5_count;
+					bhiData.BHI_data_Buffer[S5_count].sensor_5.imuNum = 5;
+					bhiData.BHI_data_Buffer[S5_count].sensor_5.x 	  = sensor5->vector_buffer[sensor5->vector_ri].x;
+					bhiData.BHI_data_Buffer[S5_count].sensor_5.y      = sensor5->vector_buffer[sensor5->vector_ri].y;
+					bhiData.BHI_data_Buffer[S5_count].sensor_5.z      = sensor5->vector_buffer[sensor5->vector_ri].z;
+				}
 				S5_count++;
 
 #endif
@@ -228,9 +246,14 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 			{
 				if((S1_count >= 300) && (S2_count >= 300) && (S3_count >= 300) && (S4_count >= 300) && (S5_count >= 300))
 				{
-					write_tcp_thread_safe(bhiData.BHI_uc, 30000);
-					printf("BHI data transmitted successfully!");
-
+					// if((!send_ADS)&(!send_BHI))
+					// {
+					// 	send_BHI = true;
+						write_tcp_thread_safe(ind_ACC, 1);
+						write_tcp_thread_safe(bhiData.BHI_uc, 30000);
+						printf("\nBHI data transmitted successfully!\n");
+					// }
+					// send_BHI = false;
 					S1_count = 0;	S2_count = 0;	S3_count = 0;	S4_count = 0;	S5_count = 0;
 				}
 			}
@@ -257,12 +280,12 @@ void log_bhi_data(FILE *data_file, struct BHI_sensor *sensor1, struct BHI_sensor
 				sensor3->euler_count = 0;
 #endif
 #ifdef BHI_SENSOR4
-				printf("Sensor 4 LACC %d, ORI %d, ", sensor4->vector_count, sensor4->euler_count);
+				printf("Sensor 4 LACC %d, ", sensor4->vector_count);
 				sensor4->vector_count = 0;
 				sensor4->euler_count = 0;
 #endif
 #ifdef BHI_SENSOR5
-				printf("Sensor 5 ORI %d, ", sensor5->euler_count);
+				printf("Sensor 5 LACC %d, ", sensor5->vector_count);
 				sensor5->vector_count = 0;
 				sensor5->euler_count = 0;
 #endif
@@ -288,22 +311,31 @@ void log_ads_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor
 					ads1298->adc_buffer[ads1298->adc_ri].channel[5], ads1298->adc_buffer[ads1298->adc_ri].channel[6], ads1298->adc_buffer[ads1298->adc_ri].channel[7]);
 			fflush(data_file);
 
-			ecgData.ADS_data_Buffer[ADS_count].id = ADS_count;
-			ecgData.ADS_data_Buffer[ADS_count].la = ads1298->adc_buffer[ads1298->adc_ri].channel[3];
-			ecgData.ADS_data_Buffer[ADS_count].ll = ads1298->adc_buffer[ads1298->adc_ri].channel[4];
-			ecgData.ADS_data_Buffer[ADS_count].ra = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
-			ecgData.ADS_data_Buffer[ADS_count].v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
+			if(ADS_count <= 3000)
+			{
+				ecgData.ADS_data_Buffer[ADS_count].id = ADS_count;
+				ecgData.ADS_data_Buffer[ADS_count].la = ads1298->adc_buffer[ads1298->adc_ri].channel[3];
+				ecgData.ADS_data_Buffer[ADS_count].ll = ads1298->adc_buffer[ads1298->adc_ri].channel[4];
+				ecgData.ADS_data_Buffer[ADS_count].ra = ads1298->adc_buffer[ads1298->adc_ri].channel[5];
+				ecgData.ADS_data_Buffer[ADS_count].v1 = ads1298->adc_buffer[ads1298->adc_ri].channel[7];
+			}
 			ADS_count++;
 
-			if(YES==is_tcp_client_connected())
-			{
+			// if(YES==is_tcp_client_connected())
+			// {
 				if(ADS_count >= 3000)
 				{
-					write_tcp_thread_safe(ecgData.ADS_uc, 60000);
-					printf("ADS data transmitted successfully!");
+					// if((!send_ADS)&(!send_BHI))
+					// {
+					// 	send_ADS = true;
+						write_tcp_thread_safe(ind_ECG, 1);
+						write_tcp_thread_safe(ecgData.ADS_uc, 60000);
+						printf("\nADS data transmitted successfully!\n");
+					// }
+					// send_ADS = false;
 					ADS_count = 0;
 				}
-			}
+			// }
 
 			if(ads_tick_count>=500)
 			{
@@ -459,10 +491,10 @@ int main(int argc, char **argv)
 #endif
 #ifdef BHI_SENSOR4
 //		BHI260AP_init_sensor(&bhi_sensor4, ENABLE_ORI_VS);
-		BHI260AP_init_sensor(&bhi_sensor4, ENABLE_LACC_VS | ENABLE_ORI_VS);
+		BHI260AP_init_sensor(&bhi_sensor4, ENABLE_LACC_VS);
 #endif
 #ifdef BHI_SENSOR5
-		BHI260AP_init_sensor(&bhi_sensor5, ENABLE_ORI_VS);
+		BHI260AP_init_sensor(&bhi_sensor5, ENABLE_LACC_VS);
 
 #endif
 
@@ -689,7 +721,7 @@ int main(int argc, char **argv)
 			BHI260AP_get_and_process_fifo(&bhi_sensor5);
 		}
 #endif
-		log_data(BHI_data_file, &bhi_sensor1, &bhi_sensor2, &bhi_sensor3, &bhi_sensor4, &bhi_sensor5);
+		log_bhi_data(BHI_data_file, &bhi_sensor1, &bhi_sensor2, &bhi_sensor3, &bhi_sensor4, &bhi_sensor5);
 #if defined(ADS1298) || defined(ADS131)
 		log_ads_data(ADS_data_file, &ads1298, &ads131);
 #endif
