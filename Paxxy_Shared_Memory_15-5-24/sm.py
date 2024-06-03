@@ -55,7 +55,7 @@ def main():
                 s1x, s1y, s1z, s2x, s2y, s2z, s3x, s3y, s3z, s4x, s4y, s4z  = struct.unpack("iiiiiiiiiiii",buf)
                 print(f"S1X: {s1x}, S1Y: {s1y}, S1Z: {s1z}, S2X: {s2x}, S2Y: {s2y}, S2Z: {s2z}, S3X: {s3x}, S3Y: {s3y}, S3Z: {s3z}, S4X: {s4x}, S4Y: {s4y}, S4Z: {s4z}")
             
-            time.sleep(1)
+           # time.sleep(1)
     finally:        
         shm.detach()    
     #   pass
