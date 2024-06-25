@@ -33,6 +33,7 @@ typedef union
         int ll;
         int la;
         int v1;
+		unsigned int imu_en;
         int x1;
         int y1;
         int z1;
@@ -50,7 +51,7 @@ typedef union
 		int as3;
 		int as4;
 	}_;
-	unsigned char uc[84];
+	unsigned char uc[88];
 }Tx_Data;
 
 
@@ -143,6 +144,7 @@ void log_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor *ad
 
                 if(tick_count % 10 == 0)
                 {
+					sample._.imu_en = 1;
                     sample._.x1 = sensor1->vector_buffer[sensor1->vector_ri].x;
                     sample._.y1 = sensor1->vector_buffer[sensor1->vector_ri].y;
                     sample._.z1 = sensor1->vector_buffer[sensor1->vector_ri].z;
@@ -158,6 +160,7 @@ void log_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor *ad
                 }
                 else
                 {
+					sample._.imu_en = 0;
                     sample._.x1 = -1;
                     sample._.y1 = -1;
                     sample._.z1 = -1;
@@ -173,14 +176,14 @@ void log_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor *ad
                 }
                 
                 // write_tcp_thread_safe(sample.uc, 84);
-				printf("\n %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d   \n", 
+				printf("\n %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d   \n", 
                         sample._.id, sample._.la, sample._.ll, sample._.ra, sample._.v1, 
-                        sample._.x1, sample._.y1, sample._.z1, sample._.x2, sample._.y2, sample._.z2, sample._.x3, sample._.y3, sample._.z3,
+                        sample._.imu_en, sample._.x1, sample._.y1, sample._.z1, sample._.x2, sample._.y2, sample._.z2, sample._.x3, sample._.y3, sample._.z3,
                         sample._.x4, sample._.y4, sample._.z4, sample._.as1, sample._.as2, sample._.as3, sample._.as4);
 				char buffer[1024];
-				snprintf(buffer, sizeof(buffer), "\n {\"id\" : %d  , \"ecg\" : [%d, %d, %d, %d ] , \"acc\" :  [%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d] , \"as\" : [%d, %d, %d, %d] }\n", 
+				snprintf(buffer, sizeof(buffer), "\n {\"id\" : %d  , \"ecg\" : [%d, %d, %d, %d ] , \"imu_en\" : %d  , \"acc\" :  [%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d] , \"as\" : [%d, %d, %d, %d] }\n", 
                         sample._.id, sample._.la, sample._.ll, sample._.ra, sample._.v1, 
-                        sample._.x1, sample._.y1, sample._.z1, sample._.x2, sample._.y2, sample._.z2, sample._.x3, sample._.y3, sample._.z3,
+                        sample._.imu_en, sample._.x1, sample._.y1, sample._.z1, sample._.x2, sample._.y2, sample._.z2, sample._.x3, sample._.y3, sample._.z3,
                         sample._.x4, sample._.y4, sample._.z4, sample._.as1, sample._.as2, sample._.as3, sample._.as4);
 				sendData(sock, buffer);		
 			}

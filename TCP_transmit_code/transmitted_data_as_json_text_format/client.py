@@ -12,7 +12,7 @@ def main():
 
     subprocess.Popen(["python3", "intermediate.py"])  
  
-    E_queue1 = multiprocessing.Queue(maxsize=3000)
+    E_queue1 = multiprocessing.Queue(maxsize=3500)
 
 
 

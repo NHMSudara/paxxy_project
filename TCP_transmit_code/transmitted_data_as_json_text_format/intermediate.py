@@ -2,6 +2,7 @@ import socket
 import struct
 import queue
 import json
+import subprocess
 
 HOST = '127.0.0.1'
 PORT = 8080
@@ -55,12 +56,13 @@ class Sensor_Data:
                 self.sample = [self.as1, self.as2, self.as3, self.as4]
 
     class DataObject:
-        def __init__(self, id, ra, ll, la, v1, x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4, as1, as2, as3, as4):
+        def __init__(self, id, ra, ll, la, v1, imu_en, x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4, as1, as2, as3, as4):
             self.id = id
             self.ra = ra
             self.ll = ll
             self.la = la
             self.v1 = v1
+            self.imu_en = imu_en
             self.x1 = x1
             self.y1 = y1
             self.z1 = z1
@@ -79,7 +81,7 @@ class Sensor_Data:
             self.as4 = as4
 
     def receive_data(self, sock):
-        format_str = "20s"
+        format_str = "22s"
         expected_length = struct.calcsize(format_str)
 
         def recv_all(sock, length):
@@ -99,12 +101,13 @@ class Sensor_Data:
     def Process_Data(self):
         BUFFER_SIZE = 1024
         DELIMITER = '\n'
-
+        count = 0
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((HOST, PORT))
             s.listen()
             print(f"Server listening on {HOST}:{PORT}")
-
+            subprocess.Popen(["./main"])
+            data_batch = []
             while True:
                 conn, addr = s.accept()
                 with conn:
@@ -120,17 +123,15 @@ class Sensor_Data:
                             json_str, buffer = buffer.split(DELIMITER, 1)
                             try:
                                 data_json = json.loads(json_str)
-                                json_data = json.dumps(data_json, indent=2)
-                                self.E_queue1.put(json_data)
-                                print("Received message:", json_data)
-
-                                if "ecg" in data_json:
-                                    print("ECG data:", data_json["ecg"])
-
+                                data_batch.append(data_json)  # Store parsed JSON
+                                if len(data_batch) >= 3000:
+                                    # Example of accessing data
+                                    print(f'ECG batch: {data_batch}')
+                                    data_batch.clear()
                             except json.JSONDecodeError:
                                 print("Received data is not valid JSON")
 
-# if __name__ == "__main__":
-#     E_queue1 = queue.Queue(maxsize=3000)
-#     sensor = Sensor_Data(E_queue1)
-#     sensor.Process_Data()
+if __name__ == "__main__":
+    E_queue1 = queue.Queue()
+    sensor = Sensor_Data(E_queue1)
+    sensor.Process_Data()
