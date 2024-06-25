@@ -3,21 +3,24 @@
 
 #define DEBUG_EN
 
-//#define ADS131
+// #define ADS131
 #define ADS1298
 #define BHI260AP
 
-//#define ENABLE_ADS1298_TEST_SIGNAL
-//#define ENABLE_ADS131_TEST_SIGNAL
+// #define ENABLE_ADS1298_TEST_SIGNAL
+// #define ENABLE_ADS131_TEST_SIGNAL
 
-#define VS_DATA_UPDATE_RATE 50.0		//virtual sensor data update rate
+#define ADS_DATA_FILE_PATH "ADS_Data.csv"
+#define BHI_DATA_FILE_PATH "BHI_Data.csv"
+
+#define VS_DATA_UPDATE_RATE 50.0 // virtual sensor data update rate
 
 #define MAX_BHI_ACC_SENSOR_COUNT 4
 #define BHI_SENSOR1
-//#define BHI_SENSOR2
-//#define BHI_SENSOR3
-//#define BHI_SENSOR4
-//#define BHI_SENSOR5
+#define BHI_SENSOR2
+#define BHI_SENSOR3
+#define BHI_SENSOR4
+#define BHI_SENSOR5
 
 #define ECG_DATA_TYPE 8
 #define ACC_DATA_TYPE 256
@@ -25,13 +28,11 @@
 #define SW_PIN 28
 #define LED_PIN 30
 
-
 /* SPI declaration */
 #define BHI_SPI_BUS 2
 
 /* SPI frequency in Hz */
-#define BHI_SPI_FREQ 500000			//500k
-
+#define BHI_SPI_FREQ 500000 // 500k
 
 #define BHI_SENSOR1_CS_PIN 7
 #define BHI_SENSOR1_INT_PIN 11
@@ -48,22 +49,17 @@
 #define BHI_SENSOR5_CS_PIN 5
 #define BHI_SENSOR5_INT_PIN 18
 
-
-
 /* SPI declaration */
 #define ADS_SPI_BUS 1
 
 /* SPI frequency in Hz */
-#define ADS_SPI_FREQ 1000000		//1 MHz
-
-
+#define ADS_SPI_FREQ 1000000 // 1 MHz
 
 /* ADS1298_GPIO */
 
 #define ADS1298_CS_PIN 13
 #define ADS1298_DRDY_PIN 12
 #define ADS1298_RESET_PIN 22
-
 
 /* ADS131M08 GPIO */
 

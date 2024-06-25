@@ -398,7 +398,6 @@ int ADS1298_get_and_process_data(struct ADS_sensor *sensor)
 	{
 		ri=0;
 	}
-
 	for(i=1;i<9;i++)
 	{
 		temp.i32 = 0;

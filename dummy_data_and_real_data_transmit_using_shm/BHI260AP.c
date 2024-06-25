@@ -57,7 +57,6 @@ int BHI_get_drdy_status(struct BHI_sensor *sensor)
 unsigned char *bhi_spi_write_buf(struct BHI_sensor *sensor, unsigned char *data, int len)
 {
 	unsigned char *rx;
-
 	mraa_gpio_write(sensor->cs, 0);
 	rx = mraa_spi_write_buf(bhi_spi, data, len);
 	mraa_gpio_write(sensor->cs, 1);
