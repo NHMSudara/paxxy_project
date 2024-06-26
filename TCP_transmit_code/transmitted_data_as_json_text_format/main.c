@@ -175,6 +175,7 @@ void log_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor *ad
 				}
 
 				// write_tcp_thread_safe(sample.uc, 84);
+				
 				printf("\n %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d    %d   \n",
 					   sample._.id, sample._.la, sample._.ll, sample._.ra, sample._.v1,
 					   sample._.imu_en, sample._.x1, sample._.y1, sample._.z1, sample._.x2, sample._.y2, sample._.z2, sample._.x3, sample._.y3, sample._.z3,
