@@ -8,6 +8,7 @@ def get_sensor_data(queue):
     array = []
     while(1)
         if not queue.empty():
+            
             array.append(queue.get())
         if len(array) == 3000:
             return array   
