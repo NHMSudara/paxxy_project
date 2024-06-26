@@ -180,7 +180,7 @@ void log_data(FILE *data_file, struct ADS_sensor *ads1298, struct ADS_sensor *ad
 					   sample._.imu_en, sample._.x1, sample._.y1, sample._.z1, sample._.x2, sample._.y2, sample._.z2, sample._.x3, sample._.y3, sample._.z3,
 					   sample._.x4, sample._.y4, sample._.z4, sample._.as1, sample._.as2, sample._.as3, sample._.as4);
 				char buffer[1024];
-				snprintf(buffer, sizeof(buffer), "\n {\"id\" : %d  , \"ecg\" : [%d, %d, %d, %d ] , \"imu_en\" : %d  , \"acc\" :  [%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d] , \"as\" : [%d, %d, %d, %d] }\n",
+				snprintf(buffer, sizeof(buffer), "\n {\"id\" : %d  , \"ecg_1\" : %d , \"ecg_2\" : %d , \"ecg_3\" : %d , \"ecg_4\" : %d , \"imu_en\" : %d  , \"acc_x1\" : %d , \"acc_y1\" : %d , \"acc_z1\" : %d , \"acc_x2\" : %d , \"acc_y2\" : %d , \"acc_z2\" : %d , \"acc_x3\" : %d , \"acc_y3\" : %d , \"acc_z3\" : %d , \"acc_x4\" : %d , \"acc_y4\" : %d , \"acc_z4\" : %d, \"as_1\" : %d, \"as_2\" : %d, \"as_3\" : %d, \"as_4\" : %d }\n",
 						 sample._.id, sample._.la, sample._.ll, sample._.ra, sample._.v1,
 						 sample._.imu_en, sample._.x1, sample._.y1, sample._.z1, sample._.x2, sample._.y2, sample._.z2, sample._.x3, sample._.y3, sample._.z3,
 						 sample._.x4, sample._.y4, sample._.z4, sample._.as1, sample._.as2, sample._.as3, sample._.as4);

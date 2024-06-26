@@ -39,12 +39,12 @@ class Sensor_Data:
                             json_str, buffer = buffer.split(DELIMITER, 1)
                             try:
                                 data_json = json.loads(json_str)
-                                data_batch.append(data_json)  # Store parsed JSON
-                                if len(data_batch) >= 3000:
+                                #data_batch.append(data_json)  # Store parsed JSON
+                                #if len(data_batch) >= 3000:
                                     # Example of accessing data
-                                    self.queue.put(data_batch)  
-                                    # print(f'ECG batch: {data_batch}')
-                                    data_batch.clear()
+                                self.queue.put(data_json)  
+                                # print(f'ECG batch: {data_batch}')
+                                #data_batch.clear()
                             except json.JSONDecodeError:
                                 pass
                                 # print("Received data is not valid JSON")
