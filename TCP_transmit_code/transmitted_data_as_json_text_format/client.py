@@ -70,7 +70,7 @@ def main():
             print(f"----batch number: {batch_num}-----")
             print("----ecg_1 data-----")
             print(ecg_1)
-            print("----acc_z1 data-----")
+            print("----acc_z1 data------")
             print(as_4)
             print(len(as_4))
             batch_num+=1
