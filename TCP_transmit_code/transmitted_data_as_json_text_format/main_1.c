@@ -37,7 +37,7 @@
 
 #define PORT 8080
 #define HOST "127.0.0.1"
-#define DATA_FILE_PATH "ADS_BHI_Data.csv"
+#define DATA_FILE_PATH "ADS_BHI_Data(1).csv"
 
 int server_socket;
 FILE *ads_file;

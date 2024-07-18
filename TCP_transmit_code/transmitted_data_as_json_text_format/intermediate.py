@@ -21,7 +21,7 @@ class Sensor_Data:
             s.bind((HOST, PORT))
             s.listen()
             print(f"Server listening on {HOST}:{PORT}")
-            subprocess.Popen(["./main"])
+            subprocess.Popen(["./main_1"])
             time.sleep(5)
             data_batch = []
             while True:

@@ -71,8 +71,8 @@ def main():
             print("----ecg_1 data-----")
             print(ecg_1)
             print("----acc_z1 data------")
-            print(as_4)
-            print(len(as_4))
+            print(acc_z1)
+            print(len(acc_z1))
             batch_num+=1
           
     except KeyboardInterrupt:
