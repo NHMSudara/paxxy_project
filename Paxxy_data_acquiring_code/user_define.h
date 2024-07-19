@@ -12,7 +12,7 @@
 //#define BHI260_6DOF
 //#define BHI260_BMM150_9DOF
 
-#define VS_DATA_UPDATE_RATE 50.0		//virtual sensor data update rate
+#define VS_DATA_UPDATE_RATE 250.0		//virtual sensor data update rate
 
 //#define WORK_BUFFER_SIZE   2048
 //#define BHY2_RD_WR_LEN 64

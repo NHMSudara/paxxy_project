@@ -100,7 +100,7 @@ void timer_callback(int signum)
 {
 	timer_ticked_ads = YES;
 	ads_tick_count++;
-	if(0==(ads_tick_count%10))
+	if(0==(ads_tick_count%2))    //for 250Hz bhi data
 	{
 		timer_ticked_bhi = YES;
 		bhi_tick_count++;
