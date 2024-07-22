@@ -599,7 +599,7 @@ int8_t bhi_configure_virtual_sensor(struct BHI_sensor *sensor, uint8_t v_sensor_
     return bhi_send_command(sensor, BHI_CMD_CONFIG_SENSOR, data, 8);
 
 }
-
+//a
     
 int BHI260AP_init_sensor(struct BHI_sensor *sensor, uint8_t conf_sensors)
 {
